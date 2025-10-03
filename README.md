@@ -8,7 +8,7 @@ I have tidied up the files so it now compiles properly
 
 The analogue interface now uses 6 MUX chips to read the pots and switches so there is no need to connect to the top or underneath of the Teensy 3.6 for the extra analogue inputs required. It runs smoother now as well.
 
-The schematics are upto date now with the latest mux changes.
+The schematics are upto date now with the latest mux changes and a PCM1502A sound card.
 
 The synth is built using a teensy 4.1 and is programmed in Arduino IDE using the teensy audio library, this gives us increased polyphony over the original 6 notes to 12.
 
