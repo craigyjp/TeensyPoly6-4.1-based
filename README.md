@@ -2,7 +2,7 @@ Teensy-Poly6
 
 This is a polyphonic synth forked from albnys/TeensyPoly6 converted into a 2U 19" rack.
 
-
+![Synth](photos/synth.jpg)
 
 I have tidied up the files so it now compiles properly
 
