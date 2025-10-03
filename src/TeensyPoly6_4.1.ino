@@ -303,90 +303,92 @@ void setup() {
 
   //LFO DESTINATION DISCONNECT
 
-  patchCord7.disconnect();     //lfoB1, 0, vcoA1
-  patchCord10.disconnect();    //lfoB1, 0, vcoA2
-  patchCord11.disconnect();    //lfoB1, 0, vcoA3
-  patchCord13.disconnect();    //lfoB1, 0, vcoA4
-  patchCord15.disconnect();    //lfoB1, 0, vcoA5
-  patchCord17.disconnect();    //lfoB1, 0, vcoA6
-  patchCord1007.disconnect();  //lfoB1, 0, vcoA7
-  patchCord1010.disconnect();  //lfoB1, 0, vcoA8
-  patchCord1011.disconnect();  //lfoB1, 0, vcoA9
-  patchCord1013.disconnect();  //lfoB1, 0, vcoA10
-  patchCord1015.disconnect();  //lfoB1, 0, vcoA11
-  patchCord1017.disconnect();  //lfoB1, 0, vcoA12
+  // patchCord7.disconnect();     //lfoB1, 0, vcoA1
+  // patchCord10.disconnect();    //lfoB1, 0, vcoA2
+  // patchCord11.disconnect();    //lfoB1, 0, vcoA3
+  // patchCord13.disconnect();    //lfoB1, 0, vcoA4
+  // patchCord15.disconnect();    //lfoB1, 0, vcoA5
+  // patchCord17.disconnect();    //lfoB1, 0, vcoA6
+  // patchCord1007.disconnect();  //lfoB1, 0, vcoA7
+  // patchCord1010.disconnect();  //lfoB1, 0, vcoA8
+  // patchCord1011.disconnect();  //lfoB1, 0, vcoA9
+  // patchCord1013.disconnect();  //lfoB1, 0, vcoA10
+  // patchCord1015.disconnect();  //lfoB1, 0, vcoA11
+  // patchCord1017.disconnect();  //lfoB1, 0, vcoA12
 
-  patchCord8.disconnect();     //lfoB1, 0, vcoB1
-  patchCord9.disconnect();     //lfoB1, 0, vcoB2
-  patchCord12.disconnect();    //lfoB1, 0, vcoB3
-  patchCord14.disconnect();    //lfoB1, 0, vcoB4
-  patchCord16.disconnect();    //lfoB1, 0, vcoB5
-  patchCord18.disconnect();    //lfoB1, 0, vcoB6
-  patchCord1008.disconnect();  //lfoB1, 0, vcoB7
-  patchCord1009.disconnect();  //lfoB1, 0, vcoB8
-  patchCord1012.disconnect();  //lfoB1, 0, vcoB9
-  patchCord1014.disconnect();  //lfoB1, 0, vcoB10
-  patchCord1016.disconnect();  //lfoB1, 0, vcoB11
-  patchCord1018.disconnect();  //lfoB1, 0, vcoB12
+  // patchCord8.disconnect();     //lfoB1, 0, vcoB1
+  // patchCord9.disconnect();     //lfoB1, 0, vcoB2
+  // patchCord12.disconnect();    //lfoB1, 0, vcoB3
+  // patchCord14.disconnect();    //lfoB1, 0, vcoB4
+  // patchCord16.disconnect();    //lfoB1, 0, vcoB5
+  // patchCord18.disconnect();    //lfoB1, 0, vcoB6
+  // patchCord1008.disconnect();  //lfoB1, 0, vcoB7
+  // patchCord1009.disconnect();  //lfoB1, 0, vcoB8
+  // patchCord1012.disconnect();  //lfoB1, 0, vcoB9
+  // patchCord1014.disconnect();  //lfoB1, 0, vcoB10
+  // patchCord1016.disconnect();  //lfoB1, 0, vcoB11
+  // patchCord1018.disconnect();  //lfoB1, 0, vcoB12
 
-  patchCord44.disconnect();  //lfoAenv1, 0, modMix1
-  patchCord45.disconnect();  //lfoAenv1, 0, vcoB1
-  patchCord46.disconnect();  //lfoAenv1, 0, vcoC1
-  patchCord47.disconnect();  //lfoAenv1, 0, sub1
-  patchCord48.disconnect();  //lfoAenv1, 0, filterMix1
-  patchCord19.disconnect();  //lfoAenv2, 0, modMix2
-  patchCord20.disconnect();  //lfoAenv2, 0, vcoB2
-  patchCord21.disconnect();  //lfoAenv2, 0, vcoC2
-  patchCord22.disconnect();  //lfoAenv2, 0, sub2
-  patchCord23.disconnect();  //lfoAenv2, 0, filterMix2
-  patchCord24.disconnect();  //lfoAenv3, 0, modMix3
-  patchCord25.disconnect();  //lfoAenv3, 0, vcoB3
-  patchCord26.disconnect();  //lfoAenv3, 0, vcoC3
-  patchCord27.disconnect();  //lfoAenv3, 0, sub3
-  patchCord28.disconnect();  //lfoAenv3, 0, filterMix3
-  patchCord29.disconnect();  //lfoAenv4, 0, modMix4
-  patchCord30.disconnect();  //lfoAenv4, 0, vcoB4
-  patchCord31.disconnect();  //lfoAenv4, 0, vcoC4
-  patchCord32.disconnect();  //lfoAenv4, 0, sub4
-  patchCord33.disconnect();  //lfoAenv4, 0, filterMix4
-  patchCord34.disconnect();  //lfoAenv5, 0, modMix5
-  patchCord36.disconnect();  //lfoAenv5, 0, vcoC5
-  patchCord37.disconnect();  //lfoAenv5, 0, sub5
-  patchCord38.disconnect();  //lfoAenv5, 0, filterMix5
-  patchCord39.disconnect();  //lfoAenv6, 0, modMix6
-  patchCord40.disconnect();  //lfoAenv6, 0, vcoB6
-  patchCord41.disconnect();  //lfoAenv6, 0, vcoC6
-  patchCord42.disconnect();  //lfoAenv6, 0, sub6
-  patchCord43.disconnect();  //lfoAenv6, 0, filterMix6
-  patchCord1044.disconnect();  //lfoAenv1, 0, modMix1
-  patchCord1045.disconnect();  //lfoAenv1, 0, vcoB1
-  patchCord1046.disconnect();  //lfoAenv1, 0, vcoC1
-  patchCord1047.disconnect();  //lfoAenv1, 0, sub1
-  patchCord1048.disconnect();  //lfoAenv1, 0, filterMix1
-  patchCord1019.disconnect();  //lfoAenv2, 0, modMix2
-  patchCord1020.disconnect();  //lfoAenv2, 0, vcoB2
-  patchCord1021.disconnect();  //lfoAenv2, 0, vcoC2
-  patchCord1022.disconnect();  //lfoAenv2, 0, sub2
-  patchCord1023.disconnect();  //lfoAenv2, 0, filterMix2
-  patchCord1024.disconnect();  //lfoAenv3, 0, modMix3
-  patchCord1025.disconnect();  //lfoAenv3, 0, vcoB3
-  patchCord1026.disconnect();  //lfoAenv3, 0, vcoC3
-  patchCord1027.disconnect();  //lfoAenv3, 0, sub3
-  patchCord1028.disconnect();  //lfoAenv3, 0, filterMix3
-  patchCord1029.disconnect();  //lfoAenv4, 0, modMix4
-  patchCord1030.disconnect();  //lfoAenv4, 0, vcoB4
-  patchCord1031.disconnect();  //lfoAenv4, 0, vcoC4
-  patchCord1032.disconnect();  //lfoAenv4, 0, sub4
-  patchCord1033.disconnect();  //lfoAenv4, 0, filterMix4
-  patchCord1034.disconnect();  //lfoAenv5, 0, modMix5
-  patchCord1036.disconnect();  //lfoAenv5, 0, vcoC5
-  patchCord1037.disconnect();  //lfoAenv5, 0, sub5
-  patchCord1038.disconnect();  //lfoAenv5, 0, filterMix5
-  patchCord1039.disconnect();  //lfoAenv6, 0, modMix6
-  patchCord1040.disconnect();  //lfoAenv6, 0, vcoB6
-  patchCord1041.disconnect();  //lfoAenv6, 0, vcoC6
-  patchCord1042.disconnect();  //lfoAenv6, 0, sub6
-  patchCord1043.disconnect();  //lfoAenv6, 0, filterMix6
+  patchCord44.disconnect();    //lfoAenv1, 0, modMix1
+  patchCord45.disconnect();    //lfoAenv1, 0, vcoB1
+  patchCord46.disconnect();    //lfoAenv1, 0, vcoC1
+  patchCord47.disconnect();    //lfoAenv1, 0, sub1
+  patchCord48.disconnect();    //lfoAenv1, 0, filterMix1
+  patchCord19.disconnect();    //lfoAenv2, 0, modMix2
+  patchCord20.disconnect();    //lfoAenv2, 0, vcoB2
+  patchCord21.disconnect();    //lfoAenv2, 0, vcoC2
+  patchCord22.disconnect();    //lfoAenv2, 0, sub2
+  patchCord23.disconnect();    //lfoAenv2, 0, filterMix2
+  patchCord24.disconnect();    //lfoAenv3, 0, modMix3
+  patchCord25.disconnect();    //lfoAenv3, 0, vcoB3
+  patchCord26.disconnect();    //lfoAenv3, 0, vcoC3
+  patchCord27.disconnect();    //lfoAenv3, 0, sub3
+  patchCord28.disconnect();    //lfoAenv3, 0, filterMix3
+  patchCord29.disconnect();    //lfoAenv4, 0, modMix4
+  patchCord30.disconnect();    //lfoAenv4, 0, vcoB4
+  patchCord31.disconnect();    //lfoAenv4, 0, vcoC4
+  patchCord32.disconnect();    //lfoAenv4, 0, sub4
+  patchCord33.disconnect();    //lfoAenv4, 0, filterMix4
+  patchCord34.disconnect();    //lfoAenv5, 0, modMix5
+  patchCord35.disconnect();    //lfoAenv5, 0, vcoB5
+  patchCord36.disconnect();    //lfoAenv5, 0, vcoC5
+  patchCord37.disconnect();    //lfoAenv5, 0, sub5
+  patchCord38.disconnect();    //lfoAenv5, 0, filterMix5
+  patchCord39.disconnect();    //lfoAenv6, 0, modMix6
+  patchCord40.disconnect();    //lfoAenv6, 0, vcoB6
+  patchCord41.disconnect();    //lfoAenv6, 0, vcoC6
+  patchCord42.disconnect();    //lfoAenv6, 0, sub6
+  patchCord43.disconnect();    //lfoAenv6, 0, filterMix6
+  patchCord1044.disconnect();  //lfoAenv7, 0, modMix7
+  patchCord1045.disconnect();  //lfoAenv7, 0, vcoB7
+  patchCord1046.disconnect();  //lfoAenv7, 0, vcoC7
+  patchCord1047.disconnect();  //lfoAenv7, 0, sub7
+  patchCord1048.disconnect();  //lfoAenv7, 0, filterMix7
+  patchCord1019.disconnect();  //lfoAenv8, 0, modMix8
+  patchCord1020.disconnect();  //lfoAenv8, 0, vcoB8
+  patchCord1021.disconnect();  //lfoAenv8, 0, vcoC8
+  patchCord1022.disconnect();  //lfoAenv8, 0, sub8
+  patchCord1023.disconnect();  //lfoAenv8, 0, filterMix8
+  patchCord1024.disconnect();  //lfoAenv9, 0, modMix9
+  patchCord1025.disconnect();  //lfoAenv9, 0, vcoB9
+  patchCord1026.disconnect();  //lfoAenv9, 0, vcoC9
+  patchCord1027.disconnect();  //lfoAenv9, 0, sub9
+  patchCord1028.disconnect();  //lfoAenv9, 0, filterMix9
+  patchCord1029.disconnect();  //lfoAenv10, 0, modMix10
+  patchCord1030.disconnect();  //lfoAenv10, 0, vcoB10
+  patchCord1031.disconnect();  //lfoAenv10, 0, vcoC10
+  patchCord1032.disconnect();  //lfoAenv10, 0, sub10
+  patchCord1033.disconnect();  //lfoAenv10, 0, filterMix10
+  patchCord1034.disconnect();  //lfoAenv11, 0, modMix11
+  patchCord1035.disconnect();  //lfoAenv11, 0, vcoB11
+  patchCord1036.disconnect();  //lfoAenv11, 0, vcoC11
+  patchCord1037.disconnect();  //lfoAenv11, 0, sub11
+  patchCord1038.disconnect();  //lfoAenv11, 0, filterMix11
+  patchCord1039.disconnect();  //lfoAenv12, 0, modMix12
+  patchCord1040.disconnect();  //lfoAenv12, 0, vcoB12
+  patchCord1041.disconnect();  //lfoAenv12, 0, vcoC12
+  patchCord1042.disconnect();  //lfoAenv12, 0, sub12
+  patchCord1043.disconnect();  //lfoAenv12, 0, filterMix12
 
 
   recallPatch(patchNo);  //Load first patch
@@ -1283,228 +1285,144 @@ FLASHMEM void updateShapeC() {
   //Vco C shapes
   switch (shapeC) {
     case 1 ... 32:
-      vcoC1.arbitraryWaveform(wave1, 2000);
-      vcoC2.arbitraryWaveform(wave1, 2000);
-      vcoC3.arbitraryWaveform(wave1, 2000);
-      vcoC4.arbitraryWaveform(wave1, 2000);
-      vcoC5.arbitraryWaveform(wave1, 2000);
-      vcoC6.arbitraryWaveform(wave1, 2000);
+      for (int i = 0; i < 12; i++) {
+        vcoC[i]->arbitraryWaveform(wave1, 2000);
+      }
       break;
     case 37 ... 69:
-      vcoC1.arbitraryWaveform(wave2, 2000);
-      vcoC2.arbitraryWaveform(wave2, 2000);
-      vcoC3.arbitraryWaveform(wave2, 2000);
-      vcoC4.arbitraryWaveform(wave2, 2000);
-      vcoC5.arbitraryWaveform(wave2, 2000);
-      vcoC6.arbitraryWaveform(wave2, 2000);
+      for (int i = 0; i < 12; i++) {
+        vcoC[i]->arbitraryWaveform(wave2, 2000);
+      }
       break;
     case 73 ... 105:
-      vcoC1.arbitraryWaveform(wave3, 2000);
-      vcoC2.arbitraryWaveform(wave3, 2000);
-      vcoC3.arbitraryWaveform(wave3, 2000);
-      vcoC4.arbitraryWaveform(wave3, 2000);
-      vcoC5.arbitraryWaveform(wave3, 2000);
-      vcoC6.arbitraryWaveform(wave3, 2000);
+      for (int i = 0; i < 12; i++) {
+        vcoC[i]->arbitraryWaveform(wave3, 2000);
+      }
       break;
     case 109 ... 141:
-      vcoC1.arbitraryWaveform(wave4, 2000);
-      vcoC2.arbitraryWaveform(wave4, 2000);
-      vcoC3.arbitraryWaveform(wave4, 2000);
-      vcoC4.arbitraryWaveform(wave4, 2000);
-      vcoC5.arbitraryWaveform(wave4, 2000);
-      vcoC6.arbitraryWaveform(wave4, 2000);
+      for (int i = 0; i < 12; i++) {
+        vcoC[i]->arbitraryWaveform(wave4, 2000);
+      }
       break;
     case 145 ... 177:
-      vcoC1.arbitraryWaveform(wave5, 2000);
-      vcoC2.arbitraryWaveform(wave5, 2000);
-      vcoC3.arbitraryWaveform(wave5, 2000);
-      vcoC4.arbitraryWaveform(wave5, 2000);
-      vcoC5.arbitraryWaveform(wave5, 2000);
-      vcoC6.arbitraryWaveform(wave5, 2000);
+      for (int i = 0; i < 12; i++) {
+        vcoC[i]->arbitraryWaveform(wave5, 2000);
+      }
       break;
     case 181 ... 212:
-      vcoC1.arbitraryWaveform(wave6, 2000);
-      vcoC2.arbitraryWaveform(wave6, 2000);
-      vcoC3.arbitraryWaveform(wave6, 2000);
-      vcoC4.arbitraryWaveform(wave6, 2000);
-      vcoC5.arbitraryWaveform(wave6, 2000);
-      vcoC6.arbitraryWaveform(wave6, 2000);
+      for (int i = 0; i < 12; i++) {
+        vcoC[i]->arbitraryWaveform(wave6, 2000);
+      }
       break;
     case 217 ... 248:
-      vcoC1.arbitraryWaveform(wave7, 2000);
-      vcoC2.arbitraryWaveform(wave7, 2000);
-      vcoC3.arbitraryWaveform(wave7, 2000);
-      vcoC4.arbitraryWaveform(wave7, 2000);
-      vcoC5.arbitraryWaveform(wave7, 2000);
-      vcoC6.arbitraryWaveform(wave7, 2000);
+      for (int i = 0; i < 12; i++) {
+        vcoC[i]->arbitraryWaveform(wave7, 2000);
+      }
       break;
     case 253 ... 285:
-      vcoC1.arbitraryWaveform(wave8, 2000);
-      vcoC2.arbitraryWaveform(wave8, 2000);
-      vcoC3.arbitraryWaveform(wave8, 2000);
-      vcoC4.arbitraryWaveform(wave8, 2000);
-      vcoC5.arbitraryWaveform(wave8, 2000);
-      vcoC6.arbitraryWaveform(wave8, 2000);
+      for (int i = 0; i < 12; i++) {
+        vcoC[i]->arbitraryWaveform(wave8, 2000);
+      }
       break;
     case 289 ... 320:
-      vcoC1.arbitraryWaveform(wave9, 2000);
-      vcoC2.arbitraryWaveform(wave9, 2000);
-      vcoC3.arbitraryWaveform(wave9, 2000);
-      vcoC4.arbitraryWaveform(wave9, 2000);
-      vcoC5.arbitraryWaveform(wave9, 2000);
-      vcoC6.arbitraryWaveform(wave9, 2000);
+      for (int i = 0; i < 12; i++) {
+        vcoC[i]->arbitraryWaveform(wave9, 2000);
+      }
       break;
     case 325 ... 357:
-      vcoC1.arbitraryWaveform(wave10, 2000);
-      vcoC2.arbitraryWaveform(wave10, 2000);
-      vcoC3.arbitraryWaveform(wave10, 2000);
-      vcoC4.arbitraryWaveform(wave10, 2000);
-      vcoC5.arbitraryWaveform(wave10, 2000);
-      vcoC6.arbitraryWaveform(wave10, 2000);
+      for (int i = 0; i < 12; i++) {
+        vcoC[i]->arbitraryWaveform(wave10, 2000);
+      }
       break;
     case 361 ... 393:
-      vcoC1.arbitraryWaveform(wave11, 2000);
-      vcoC2.arbitraryWaveform(wave11, 2000);
-      vcoC3.arbitraryWaveform(wave11, 2000);
-      vcoC4.arbitraryWaveform(wave11, 2000);
-      vcoC5.arbitraryWaveform(wave11, 2000);
-      vcoC6.arbitraryWaveform(wave11, 2000);
+      for (int i = 0; i < 12; i++) {
+        vcoC[i]->arbitraryWaveform(wave11, 2000);
+      }
       break;
     case 397 ... 429:
-      vcoC1.arbitraryWaveform(wave12, 2000);
-      vcoC2.arbitraryWaveform(wave12, 2000);
-      vcoC3.arbitraryWaveform(wave12, 2000);
-      vcoC4.arbitraryWaveform(wave12, 2000);
-      vcoC5.arbitraryWaveform(wave12, 2000);
-      vcoC6.arbitraryWaveform(wave12, 2000);
+      for (int i = 0; i < 12; i++) {
+        vcoC[i]->arbitraryWaveform(wave12, 2000);
+      }
       break;
     case 433 ... 465:
-      vcoC1.arbitraryWaveform(wave13, 2000);
-      vcoC2.arbitraryWaveform(wave13, 2000);
-      vcoC3.arbitraryWaveform(wave13, 2000);
-      vcoC4.arbitraryWaveform(wave13, 2000);
-      vcoC5.arbitraryWaveform(wave13, 2000);
-      vcoC6.arbitraryWaveform(wave13, 2000);
+      for (int i = 0; i < 12; i++) {
+        vcoC[i]->arbitraryWaveform(wave13, 2000);
+      }
       break;
     case 469 ... 500:
-      vcoC1.arbitraryWaveform(wave14, 2000);
-      vcoC2.arbitraryWaveform(wave14, 2000);
-      vcoC3.arbitraryWaveform(wave14, 2000);
-      vcoC4.arbitraryWaveform(wave14, 2000);
-      vcoC5.arbitraryWaveform(wave14, 2000);
-      vcoC6.arbitraryWaveform(wave14, 2000);
+      for (int i = 0; i < 12; i++) {
+        vcoC[i]->arbitraryWaveform(wave14, 2000);
+      }
       break;
     case 505 ... 537:
-      vcoC1.arbitraryWaveform(wave15, 2000);
-      vcoC2.arbitraryWaveform(wave15, 2000);
-      vcoC3.arbitraryWaveform(wave15, 2000);
-      vcoC4.arbitraryWaveform(wave15, 2000);
-      vcoC5.arbitraryWaveform(wave15, 2000);
-      vcoC6.arbitraryWaveform(wave15, 2000);
+      for (int i = 0; i < 12; i++) {
+        vcoC[i]->arbitraryWaveform(wave15, 2000);
+      }
       break;
     case 541 ... 573:
-      vcoC1.arbitraryWaveform(wave16, 2000);
-      vcoC2.arbitraryWaveform(wave16, 2000);
-      vcoC3.arbitraryWaveform(wave16, 2000);
-      vcoC4.arbitraryWaveform(wave16, 2000);
-      vcoC5.arbitraryWaveform(wave16, 2000);
-      vcoC6.arbitraryWaveform(wave16, 2000);
+      for (int i = 0; i < 12; i++) {
+        vcoC[i]->arbitraryWaveform(wave16, 2000);
+      }
       break;
     case 577 ... 609:
-      vcoC1.arbitraryWaveform(wave17, 2000);
-      vcoC2.arbitraryWaveform(wave17, 2000);
-      vcoC3.arbitraryWaveform(wave17, 2000);
-      vcoC4.arbitraryWaveform(wave17, 2000);
-      vcoC5.arbitraryWaveform(wave17, 2000);
-      vcoC6.arbitraryWaveform(wave17, 2000);
+      for (int i = 0; i < 12; i++) {
+        vcoC[i]->arbitraryWaveform(wave17, 2000);
+      }
       break;
     case 613 ... 645:
-      vcoC1.arbitraryWaveform(wave18, 2000);
-      vcoC2.arbitraryWaveform(wave18, 2000);
-      vcoC3.arbitraryWaveform(wave18, 2000);
-      vcoC4.arbitraryWaveform(wave18, 2000);
-      vcoC5.arbitraryWaveform(wave18, 2000);
-      vcoC6.arbitraryWaveform(wave18, 2000);
+      for (int i = 0; i < 12; i++) {
+        vcoC[i]->arbitraryWaveform(wave18, 2000);
+      }
       break;
     case 649 ... 680:
-      vcoC1.arbitraryWaveform(wave19, 2000);
-      vcoC2.arbitraryWaveform(wave19, 2000);
-      vcoC3.arbitraryWaveform(wave19, 2000);
-      vcoC4.arbitraryWaveform(wave19, 2000);
-      vcoC5.arbitraryWaveform(wave19, 2000);
-      vcoC6.arbitraryWaveform(wave19, 2000);
+      for (int i = 0; i < 12; i++) {
+        vcoC[i]->arbitraryWaveform(wave19, 2000);
+      }
       break;
     case 685 ... 717:
-      vcoC1.arbitraryWaveform(wave20, 2000);
-      vcoC2.arbitraryWaveform(wave20, 2000);
-      vcoC3.arbitraryWaveform(wave20, 2000);
-      vcoC4.arbitraryWaveform(wave20, 2000);
-      vcoC5.arbitraryWaveform(wave20, 2000);
-      vcoC6.arbitraryWaveform(wave20, 2000);
+      for (int i = 0; i < 12; i++) {
+        vcoC[i]->arbitraryWaveform(wave20, 2000);
+      }
       break;
     case 721 ... 752:
-      vcoC1.arbitraryWaveform(wave21, 2000);
-      vcoC2.arbitraryWaveform(wave21, 2000);
-      vcoC3.arbitraryWaveform(wave21, 2000);
-      vcoC4.arbitraryWaveform(wave21, 2000);
-      vcoC5.arbitraryWaveform(wave21, 2000);
-      vcoC6.arbitraryWaveform(wave21, 2000);
+      for (int i = 0; i < 12; i++) {
+        vcoC[i]->arbitraryWaveform(wave21, 2000);
+      }
       break;
     case 757 ... 789:
-      vcoC1.arbitraryWaveform(wave22, 2000);
-      vcoC2.arbitraryWaveform(wave22, 2000);
-      vcoC3.arbitraryWaveform(wave22, 2000);
-      vcoC4.arbitraryWaveform(wave22, 2000);
-      vcoC5.arbitraryWaveform(wave22, 2000);
-      vcoC6.arbitraryWaveform(wave22, 2000);
+      for (int i = 0; i < 12; i++) {
+        vcoC[i]->arbitraryWaveform(wave22, 2000);
+      }
       break;
     case 793 ... 825:
-      vcoC1.arbitraryWaveform(wave23, 2000);
-      vcoC2.arbitraryWaveform(wave23, 2000);
-      vcoC3.arbitraryWaveform(wave23, 2000);
-      vcoC4.arbitraryWaveform(wave23, 2000);
-      vcoC5.arbitraryWaveform(wave23, 2000);
-      vcoC6.arbitraryWaveform(wave23, 2000);
+      for (int i = 0; i < 12; i++) {
+        vcoC[i]->arbitraryWaveform(wave23, 2000);
+      }
       break;
     case 829 ... 860:
-      vcoC1.arbitraryWaveform(wave24, 2000);
-      vcoC2.arbitraryWaveform(wave24, 2000);
-      vcoC3.arbitraryWaveform(wave24, 2000);
-      vcoC4.arbitraryWaveform(wave24, 2000);
-      vcoC5.arbitraryWaveform(wave24, 2000);
-      vcoC6.arbitraryWaveform(wave24, 2000);
+      for (int i = 0; i < 12; i++) {
+        vcoC[i]->arbitraryWaveform(wave24, 2000);
+      }
       break;
     case 865 ... 896:
-      vcoC1.arbitraryWaveform(wave25, 2000);
-      vcoC2.arbitraryWaveform(wave25, 2000);
-      vcoC3.arbitraryWaveform(wave25, 2000);
-      vcoC4.arbitraryWaveform(wave25, 2000);
-      vcoC5.arbitraryWaveform(wave25, 2000);
-      vcoC6.arbitraryWaveform(wave25, 2000);
+      for (int i = 0; i < 12; i++) {
+        vcoC[i]->arbitraryWaveform(wave25, 2000);
+      }
       break;
     case 901 ... 933:
-      vcoC1.arbitraryWaveform(wave26, 2000);
-      vcoC2.arbitraryWaveform(wave26, 2000);
-      vcoC3.arbitraryWaveform(wave26, 2000);
-      vcoC4.arbitraryWaveform(wave26, 2000);
-      vcoC5.arbitraryWaveform(wave26, 2000);
-      vcoC6.arbitraryWaveform(wave26, 2000);
+      for (int i = 0; i < 12; i++) {
+        vcoC[i]->arbitraryWaveform(wave26, 2000);
+      }
       break;
     case 937 ... 966:
-      vcoC1.arbitraryWaveform(wave27, 2000);
-      vcoC2.arbitraryWaveform(wave27, 2000);
-      vcoC3.arbitraryWaveform(wave27, 2000);
-      vcoC4.arbitraryWaveform(wave27, 2000);
-      vcoC5.arbitraryWaveform(wave27, 2000);
-      vcoC6.arbitraryWaveform(wave27, 2000);
+      for (int i = 0; i < 12; i++) {
+        vcoC[i]->arbitraryWaveform(wave27, 2000);
+      }
       break;
     case 970 ... 1024:
-      vcoC1.arbitraryWaveform(wave28, 2000);
-      vcoC2.arbitraryWaveform(wave28, 2000);
-      vcoC3.arbitraryWaveform(wave28, 2000);
-      vcoC4.arbitraryWaveform(wave28, 2000);
-      vcoC5.arbitraryWaveform(wave28, 2000);
-      vcoC6.arbitraryWaveform(wave28, 2000);
+      for (int i = 0; i < 12; i++) {
+        vcoC[i]->arbitraryWaveform(wave28, 2000);
+      }
       break;
   }
 }
@@ -2032,112 +1950,200 @@ FLASHMEM void updateLFODestination() {
     midiCCOut(CClfo_dest_1, 127, 1);
   }
   //LFO A DESTINATION
-  if (lfoAdest == 0) {      //lfo - pitch
-    patchCord7.connect();   //vcoA
-    patchCord8.connect();   //vcoB
-    patchCord9.connect();   //vcoC
-    patchCord10.connect();  //sub
-    patchCord15.connect();  //vcoA
-    patchCord16.connect();  //vcoB
-    patchCord17.connect();  //vcoC
-    patchCord18.connect();  //sub
-    patchCord20.connect();  //vcoA
-    patchCord21.connect();  //vcoB
-    patchCord22.connect();  //vcoC
-    patchCord23.connect();  //sub
-    patchCord25.connect();  //vcoA
-    patchCord26.connect();  //vcoB
-    patchCord27.connect();  //vcoC
-    patchCord28.connect();  //sub
-    patchCord36.connect();  //vcoA
-    patchCord37.connect();  //vcoB
-    patchCord38.connect();  //vcoC
-    patchCord39.connect();  //sub
-    patchCord41.connect();  //vcoA
-    patchCord42.connect();  //vcoB
-    patchCord43.connect();  //vcoC
-    patchCord44.connect();  //sub
+  if (lfoAdest == 0) {  //lfo - pitch
 
-    patchCord11.disconnect();  //filter
-    patchCord19.disconnect();  //filter
-    patchCord24.disconnect();  //filter
-    patchCord29.disconnect();  //filter
-    patchCord40.disconnect();  //filter
-    patchCord45.disconnect();  //filter
+    patchCord44.connect();       //lfoAenv1, 0, modMix1
+    patchCord45.connect();       //lfoAenv1, 0, vcoB1
+    patchCord46.connect();       //lfoAenv1, 0, vcoC1
+    patchCord47.connect();       //lfoAenv1, 0, sub1
+    patchCord48.disconnect();    //lfoAenv1, 0, filterMix1
+    patchCord19.connect();       //lfoAenv2, 0, modMix2
+    patchCord20.connect();       //lfoAenv2, 0, vcoB2
+    patchCord21.connect();       //lfoAenv2, 0, vcoC2
+    patchCord22.connect();       //lfoAenv2, 0, sub2
+    patchCord23.disconnect();    //lfoAenv2, 0, filterMix2
+    patchCord24.connect();       //lfoAenv3, 0, modMix3
+    patchCord25.connect();       //lfoAenv3, 0, vcoB3
+    patchCord26.connect();       //lfoAenv3, 0, vcoC3
+    patchCord27.connect();       //lfoAenv3, 0, sub3
+    patchCord28.disconnect();    //lfoAenv3, 0, filterMix3
+    patchCord29.connect();       //lfoAenv4, 0, modMix4
+    patchCord30.connect();       //lfoAenv4, 0, vcoB4
+    patchCord31.connect();       //lfoAenv4, 0, vcoC4
+    patchCord32.connect();       //lfoAenv4, 0, sub4
+    patchCord33.disconnect();    //lfoAenv4, 0, filterMix4
+    patchCord34.connect();       //lfoAenv5, 0, modMix5
+    patchCord35.connect();       //lfoAenv5, 0, vcoB5
+    patchCord36.connect();       //lfoAenv5, 0, vcoC5
+    patchCord37.connect();       //lfoAenv5, 0, sub5
+    patchCord38.disconnect();    //lfoAenv5, 0, filterMix5
+    patchCord39.connect();       //lfoAenv6, 0, modMix6
+    patchCord40.connect();       //lfoAenv6, 0, vcoB6
+    patchCord41.connect();       //lfoAenv6, 0, vcoC6
+    patchCord42.connect();       //lfoAenv6, 0, sub6
+    patchCord43.disconnect();    //lfoAenv6, 0, filterMix6
+    patchCord1044.connect();     //lfoAenv7, 0, modMix7
+    patchCord1045.connect();     //lfoAenv7, 0, vcoB7
+    patchCord1046.connect();     //lfoAenv7, 0, vcoC7
+    patchCord1047.connect();     //lfoAenv7, 0, sub7
+    patchCord1048.disconnect();  //lfoAenv7, 0, filterMix7
+    patchCord1019.connect();     //lfoAenv8, 0, modMix8
+    patchCord1020.connect();     //lfoAenv8, 0, vcoB8
+    patchCord1021.connect();     //lfoAenv8, 0, vcoC8
+    patchCord1022.connect();     //lfoAenv8, 0, sub8
+    patchCord1023.disconnect();  //lfoAenv8, 0, filterMix8
+    patchCord1024.connect();     //lfoAenv9, 0, modMix9
+    patchCord1025.connect();     //lfoAenv9, 0, vcoB9
+    patchCord1026.connect();     //lfoAenv9, 0, vcoC9
+    patchCord1027.connect();     //lfoAenv9, 0, sub9
+    patchCord1028.disconnect();  //lfoAenv9, 0, filterMix9
+    patchCord1029.connect();     //lfoAenv10, 0, modMix10
+    patchCord1030.connect();     //lfoAenv10, 0, vcoB10
+    patchCord1031.connect();     //lfoAenv10, 0, vcoC10
+    patchCord1032.connect();     //lfoAenv10, 0, sub10
+    patchCord1033.disconnect();  //lfoAenv10, 0, filterMix10
+    patchCord1034.connect();     //lfoAenv11, 0, modMix11
+    patchCord1035.connect();     //lfoAenv11, 0, vcoB11
+    patchCord1036.connect();     //lfoAenv11, 0, vcoC11
+    patchCord1037.connect();     //lfoAenv11, 0, sub11
+    patchCord1038.disconnect();  //lfoAenv11, 0, filterMix11
+    patchCord1039.connect();     //lfoAenv12, 0, modMix12
+    patchCord1040.connect();     //lfoAenv12, 0, vcoB12
+    patchCord1041.connect();     //lfoAenv12, 0, vcoC12
+    patchCord1042.connect();     //lfoAenv12, 0, sub12
+    patchCord1043.disconnect();  //lfoAenv12, 0, filterMix12
 
-    patchCord12.disconnect();  //lfoAread.
+    patchCord49.disconnect();  //lfoAread.
   }
   if (lfoAdest == 1) {  //lfo - filter
 
-    patchCord7.disconnect();   //vcoA
-    patchCord8.disconnect();   //vcoB
-    patchCord9.disconnect();   //vcoC
-    patchCord10.disconnect();  //sub
-    patchCord15.disconnect();  //vcoA
-    patchCord16.disconnect();  //vcoB
-    patchCord17.disconnect();  //vcoC
-    patchCord18.disconnect();  //sub
-    patchCord20.disconnect();  //vcoA
-    patchCord21.disconnect();  //vcoB
-    patchCord22.disconnect();  //vcoC
-    patchCord23.disconnect();  //sub
-    patchCord25.disconnect();  //vcoA
-    patchCord26.disconnect();  //vcoB
-    patchCord27.disconnect();  //vcoC
-    patchCord28.disconnect();  //sub
-    patchCord36.disconnect();  //vcoA
-    patchCord37.disconnect();  //vcoB
-    patchCord38.disconnect();  //vcoC
-    patchCord39.disconnect();  //sub
-    patchCord41.disconnect();  //vcoA
-    patchCord42.disconnect();  //vcoB
-    patchCord43.disconnect();  //vcoC
-    patchCord44.disconnect();  //sub
+    patchCord44.disconnect();    //lfoAenv1, 0, modMix1
+    patchCord45.disconnect();    //lfoAenv1, 0, vcoB1
+    patchCord46.disconnect();    //lfoAenv1, 0, vcoC1
+    patchCord47.disconnect();    //lfoAenv1, 0, sub1
+    patchCord48.connect();       //lfoAenv1, 0, filterMix1
+    patchCord19.disconnect();    //lfoAenv2, 0, modMix2
+    patchCord20.disconnect();    //lfoAenv2, 0, vcoB2
+    patchCord21.disconnect();    //lfoAenv2, 0, vcoC2
+    patchCord22.disconnect();    //lfoAenv2, 0, sub2
+    patchCord23.connect();       //lfoAenv2, 0, filterMix2
+    patchCord24.disconnect();    //lfoAenv3, 0, modMix3
+    patchCord25.disconnect();    //lfoAenv3, 0, vcoB3
+    patchCord26.disconnect();    //lfoAenv3, 0, vcoC3
+    patchCord27.disconnect();    //lfoAenv3, 0, sub3
+    patchCord28.connect();       //lfoAenv3, 0, filterMix3
+    patchCord29.disconnect();    //lfoAenv4, 0, modMix4
+    patchCord30.disconnect();    //lfoAenv4, 0, vcoB4
+    patchCord31.disconnect();    //lfoAenv4, 0, vcoC4
+    patchCord32.disconnect();    //lfoAenv4, 0, sub4
+    patchCord33.connect();       //lfoAenv4, 0, filterMix4
+    patchCord34.disconnect();    //lfoAenv5, 0, modMix5
+    patchCord35.disconnect();    //lfoAenv5, 0, vcoB5
+    patchCord36.disconnect();    //lfoAenv5, 0, vcoC5
+    patchCord37.disconnect();    //lfoAenv5, 0, sub5
+    patchCord38.connect();       //lfoAenv5, 0, filterMix5
+    patchCord39.disconnect();    //lfoAenv6, 0, modMix6
+    patchCord40.disconnect();    //lfoAenv6, 0, vcoB6
+    patchCord41.disconnect();    //lfoAenv6, 0, vcoC6
+    patchCord42.disconnect();    //lfoAenv6, 0, sub6
+    patchCord43.connect();       //lfoAenv6, 0, filterMix6
+    patchCord1044.disconnect();  //lfoAenv7, 0, modMix7
+    patchCord1045.disconnect();  //lfoAenv7, 0, vcoB7
+    patchCord1046.disconnect();  //lfoAenv7, 0, vcoC7
+    patchCord1047.disconnect();  //lfoAenv7, 0, sub7
+    patchCord1048.connect();     //lfoAenv7, 0, filterMix7
+    patchCord1019.disconnect();  //lfoAenv8, 0, modMix8
+    patchCord1020.disconnect();  //lfoAenv8, 0, vcoB8
+    patchCord1021.disconnect();  //lfoAenv8, 0, vcoC8
+    patchCord1022.disconnect();  //lfoAenv8, 0, sub8
+    patchCord1023.connect();     //lfoAenv8, 0, filterMix8
+    patchCord1024.disconnect();  //lfoAenv9, 0, modMix9
+    patchCord1025.disconnect();  //lfoAenv9, 0, vcoB9
+    patchCord1026.disconnect();  //lfoAenv9, 0, vcoC9
+    patchCord1027.disconnect();  //lfoAenv9, 0, sub9
+    patchCord1028.connect();     //lfoAenv9, 0, filterMix9
+    patchCord1029.disconnect();  //lfoAenv10, 0, modMix10
+    patchCord1030.disconnect();  //lfoAenv10, 0, vcoB10
+    patchCord1031.disconnect();  //lfoAenv10, 0, vcoC10
+    patchCord1032.disconnect();  //lfoAenv10, 0, sub10
+    patchCord1033.connect();     //lfoAenv10, 0, filterMix10
+    patchCord1034.disconnect();  //lfoAenv11, 0, modMix11
+    patchCord1035.disconnect();  //lfoAenv11, 0, vcoB11
+    patchCord1036.disconnect();  //lfoAenv11, 0, vcoC11
+    patchCord1037.disconnect();  //lfoAenv11, 0, sub11
+    patchCord1038.connect();     //lfoAenv11, 0, filterMix11
+    patchCord1039.disconnect();  //lfoAenv12, 0, modMix12
+    patchCord1040.disconnect();  //lfoAenv12, 0, vcoB12
+    patchCord1041.disconnect();  //lfoAenv12, 0, vcoC12
+    patchCord1042.disconnect();  //lfoAenv12, 0, sub12
+    patchCord1043.connect();     //lfoAenv12, 0, filterMix12
 
-    patchCord11.connect();  //filter
-    patchCord19.connect();  //filter
-    patchCord24.connect();  //filter
-    patchCord29.connect();  //filter
-    patchCord40.connect();  //filter
-    patchCord45.connect();  //filter
-
-    patchCord12.disconnect();  //lfoAread.
+    patchCord49.disconnect();  //lfoAread.
   }
   if (lfoAdest == 2) {  //lfo - amp
 
-    patchCord7.disconnect();   //vcoA
-    patchCord8.disconnect();   //vcoB
-    patchCord9.disconnect();   //vcoC
-    patchCord10.disconnect();  //sub
-    patchCord15.disconnect();  //vcoA
-    patchCord16.disconnect();  //vcoB
-    patchCord17.disconnect();  //vcoC
-    patchCord18.disconnect();  //sub
-    patchCord20.disconnect();  //vcoA
-    patchCord21.disconnect();  //vcoB
-    patchCord22.disconnect();  //vcoC
-    patchCord23.disconnect();  //sub
-    patchCord25.disconnect();  //vcoA
-    patchCord26.disconnect();  //vcoB
-    patchCord27.disconnect();  //vcoC
-    patchCord28.disconnect();  //sub
-    patchCord36.disconnect();  //vcoA
-    patchCord37.disconnect();  //vcoB
-    patchCord38.disconnect();  //vcoC
-    patchCord39.disconnect();  //sub
-    patchCord41.disconnect();  //vcoA
-    patchCord42.disconnect();  //vcoB
-    patchCord43.disconnect();  //vcoC
-    patchCord44.disconnect();  //sub
+    patchCord44.disconnect();    //lfoAenv1, 0, modMix1
+    patchCord45.disconnect();    //lfoAenv1, 0, vcoB1
+    patchCord46.disconnect();    //lfoAenv1, 0, vcoC1
+    patchCord47.disconnect();    //lfoAenv1, 0, sub1
+    patchCord48.disconnect();    //lfoAenv1, 0, filterMix1
+    patchCord19.disconnect();    //lfoAenv2, 0, modMix2
+    patchCord20.disconnect();    //lfoAenv2, 0, vcoB2
+    patchCord21.disconnect();    //lfoAenv2, 0, vcoC2
+    patchCord22.disconnect();    //lfoAenv2, 0, sub2
+    patchCord23.disconnect();    //lfoAenv2, 0, filterMix2
+    patchCord24.disconnect();    //lfoAenv3, 0, modMix3
+    patchCord25.disconnect();    //lfoAenv3, 0, vcoB3
+    patchCord26.disconnect();    //lfoAenv3, 0, vcoC3
+    patchCord27.disconnect();    //lfoAenv3, 0, sub3
+    patchCord28.disconnect();    //lfoAenv3, 0, filterMix3
+    patchCord29.disconnect();    //lfoAenv4, 0, modMix4
+    patchCord30.disconnect();    //lfoAenv4, 0, vcoB4
+    patchCord31.disconnect();    //lfoAenv4, 0, vcoC4
+    patchCord32.disconnect();    //lfoAenv4, 0, sub4
+    patchCord33.disconnect();    //lfoAenv4, 0, filterMix4
+    patchCord34.disconnect();    //lfoAenv5, 0, modMix5
+    patchCord35.disconnect();    //lfoAenv5, 0, vcoB5
+    patchCord36.disconnect();    //lfoAenv5, 0, vcoC5
+    patchCord37.disconnect();    //lfoAenv5, 0, sub5
+    patchCord38.disconnect();    //lfoAenv5, 0, filterMix5
+    patchCord39.disconnect();    //lfoAenv6, 0, modMix6
+    patchCord40.disconnect();    //lfoAenv6, 0, vcoB6
+    patchCord41.disconnect();    //lfoAenv6, 0, vcoC6
+    patchCord42.disconnect();    //lfoAenv6, 0, sub6
+    patchCord43.disconnect();    //lfoAenv6, 0, filterMix6
+    patchCord1044.disconnect();  //lfoAenv7, 0, modMix7
+    patchCord1045.disconnect();  //lfoAenv7, 0, vcoB7
+    patchCord1046.disconnect();  //lfoAenv7, 0, vcoC7
+    patchCord1047.disconnect();  //lfoAenv7, 0, sub7
+    patchCord1048.disconnect();  //lfoAenv7, 0, filterMix7
+    patchCord1019.disconnect();  //lfoAenv8, 0, modMix8
+    patchCord1020.disconnect();  //lfoAenv8, 0, vcoB8
+    patchCord1021.disconnect();  //lfoAenv8, 0, vcoC8
+    patchCord1022.disconnect();  //lfoAenv8, 0, sub8
+    patchCord1023.disconnect();  //lfoAenv8, 0, filterMix8
+    patchCord1024.disconnect();  //lfoAenv9, 0, modMix9
+    patchCord1025.disconnect();  //lfoAenv9, 0, vcoB9
+    patchCord1026.disconnect();  //lfoAenv9, 0, vcoC9
+    patchCord1027.disconnect();  //lfoAenv9, 0, sub9
+    patchCord1028.disconnect();  //lfoAenv9, 0, filterMix9
+    patchCord1029.disconnect();  //lfoAenv10, 0, modMix10
+    patchCord1030.disconnect();  //lfoAenv10, 0, vcoB10
+    patchCord1031.disconnect();  //lfoAenv10, 0, vcoC10
+    patchCord1032.disconnect();  //lfoAenv10, 0, sub10
+    patchCord1033.disconnect();  //lfoAenv10, 0, filterMix10
+    patchCord1034.disconnect();  //lfoAenv11, 0, modMix11
+    patchCord1035.disconnect();  //lfoAenv11, 0, vcoB11
+    patchCord1036.disconnect();  //lfoAenv11, 0, vcoC11
+    patchCord1037.disconnect();  //lfoAenv11, 0, sub11
+    patchCord1038.disconnect();  //lfoAenv11, 0, filterMix11
+    patchCord1039.disconnect();  //lfoAenv12, 0, modMix12
+    patchCord1040.disconnect();  //lfoAenv12, 0, vcoB12
+    patchCord1041.disconnect();  //lfoAenv12, 0, vcoC12
+    patchCord1042.disconnect();  //lfoAenv12, 0, sub12
+    patchCord1043.disconnect();  //lfoAenv12, 0, filterMix12
 
-    patchCord11.disconnect();  //filter
-    patchCord19.disconnect();  //filter
-    patchCord24.disconnect();  //filter
-    patchCord29.disconnect();  //filter
-    patchCord40.disconnect();  //filter
-    patchCord45.disconnect();  //filter
-
-    patchCord12.connect();  //lfoAread.
+    patchCord49.connect();  //lfoAread.
   }
 }
 

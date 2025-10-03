@@ -533,6 +533,10 @@ AudioConnection          patchCord151(fxL, 0, i2s1, 0);
 AudioConnection          patchCord152(fxR, 0, i2s1, 1);
 // GUItool: end automatically generated code
 
+AudioSynthWaveformModulated       *vcoC[12] = {
+  &vcoC1, &vcoC2, &vcoC3, &vcoC4, &vcoC5, &vcoC6,
+  &vcoC7, &vcoC8, &vcoC9, &vcoC10, &vcoC11, &vcoC12
+};
 
 int midiMod = 0;
 
