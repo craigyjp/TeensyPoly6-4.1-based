@@ -84,6 +84,7 @@ void setup() {
   AudioMemory(470);
   SPI.begin();
   setupDisplay();
+  delay(1000);
   setUpSettings();
   setupHardware();
 
@@ -225,19 +226,9 @@ void setup() {
 
   //lfo A
   lfoA1.begin(WAVEFORM_SINE);
-  // lfoA2.begin(WAVEFORM_SINE);
-  // lfoA3.begin(WAVEFORM_SINE);
-  // lfoA4.begin(WAVEFORM_SINE);
-  // lfoA5.begin(WAVEFORM_SINE);
-  // lfoA6.begin(WAVEFORM_SINE);
 
   //lfo B
   lfoB1.begin(0.5, 1, WAVEFORM_TRIANGLE);
-  // lfoB2.begin(0.5, 1, WAVEFORM_TRIANGLE);
-  // lfoB3.begin(0.5, 1, WAVEFORM_TRIANGLE);
-  // lfoB4.begin(0.5, 1, WAVEFORM_TRIANGLE);
-  // lfoB5.begin(0.5, 1, WAVEFORM_TRIANGLE);
-  // lfoB6.begin(0.5, 1, WAVEFORM_TRIANGLE);
 
 
   //dly
@@ -1510,13 +1501,8 @@ FLASHMEM void updateLFOAmount() {
   // }
   //lfo A params
   lfoA1.amplitude(lfoAamp);
-  // lfoA2.amplitude(lfoAamp);
-  // lfoA3.amplitude(lfoAamp);
-  // lfoA4.amplitude(lfoAamp);
-  // lfoA5.amplitude(lfoAamp);
-  // lfoA6.amplitude(lfoAamp);
   if (!announce) {
-    showCurrentParameterPage("LFO Amount", String(3 >> 3));
+    showCurrentParameterPage("LFO Amount", String(mux3 >> 3));
   }
   midiCCOut(CCmodulation, (mux3 >> 3), 1);
 }
@@ -1524,11 +1510,6 @@ FLASHMEM void updateLFOAmount() {
 FLASHMEM void updateLFOFreq() {
   //lfoAfreq = 20 * (float)mux4 / 1024 + 0.1;
   lfoA1.frequency(lfoAfreq);
-  // lfoA2.frequency(lfoAfreq);
-  // lfoA3.frequency(lfoAfreq);
-  // lfoA4.frequency(lfoAfreq);
-  // lfoA5.frequency(lfoAfreq);
-  // lfoA6.frequency(lfoAfreq);
   if (!announce) {
     showCurrentParameterPage("LFO Rate", String(LFOFreqstr) + " Hz");
   }
@@ -1745,36 +1726,18 @@ FLASHMEM void updateLFOShape() {
   //lfo shape switch
   if (lfoAshape == 0) {
     lfoA1.begin(WAVEFORM_SINE);
-    // lfoA2.begin(WAVEFORM_SINE);
-    // lfoA3.begin(WAVEFORM_SINE);
-    // lfoA4.begin(WAVEFORM_SINE);
-    // lfoA5.begin(WAVEFORM_SINE);
-    // lfoA6.begin(WAVEFORM_SINE);
   } else if (lfoAshape == 1) {
     lfoA1.begin(WAVEFORM_SAWTOOTH_REVERSE);
-    // lfoA2.begin(WAVEFORM_SAWTOOTH_REVERSE);
-    // lfoA3.begin(WAVEFORM_SAWTOOTH_REVERSE);
-    // lfoA4.begin(WAVEFORM_SAWTOOTH_REVERSE);
-    // lfoA5.begin(WAVEFORM_SAWTOOTH_REVERSE);
-    // lfoA6.begin(WAVEFORM_SAWTOOTH_REVERSE);
+
   } else if (lfoAshape == 2) {
     lfoA1.begin(WAVEFORM_SAMPLE_HOLD);
-    // lfoA2.begin(WAVEFORM_SAMPLE_HOLD);
-    // lfoA3.begin(WAVEFORM_SAMPLE_HOLD);
-    // lfoA4.begin(WAVEFORM_SAMPLE_HOLD);
-    // lfoA5.begin(WAVEFORM_SAMPLE_HOLD);
-    // lfoA6.begin(WAVEFORM_SAMPLE_HOLD);
+
   }
 }
 
 FLASHMEM void updatePWAmount() {
   //lfoBamp = (float)mux15 / 1023;
   lfoB1.amplitude(lfoBamp);
-  // lfoB2.amplitude(lfoBamp);
-  // lfoB3.amplitude(lfoBamp);
-  // lfoB4.amplitude(lfoBamp);
-  // lfoB5.amplitude(lfoBamp);
-  // lfoB6.amplitude(lfoBamp);
   if (!announce) {
     showCurrentParameterPage("PWM Depth", String(mux15 >> 3));
   }

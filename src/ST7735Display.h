@@ -56,10 +56,10 @@ void renderBootUpPage()
   tft.setFont(&Org_01);
   tft.setTextSize(1);
   tft.setTextColor(ST7735_WHITE);
-  tft.println("OBERHEIM");
+  tft.println("KORG");
   tft.setTextColor(ST7735_BLACK);
   tft.setCursor(91, 37);
-  tft.println("EDITOR");
+  tft.println("SYNTH");
   tft.setTextColor(ST7735_YELLOW);
   tft.setFont(&Yeysk16pt7b);
   tft.setCursor(10, 70);
@@ -339,47 +339,6 @@ void displayThread()
     }
     tft.updateScreen();
   }
-}
-
-void updateScreen() {
-  // switch (state) {
-  //   case PARAMETER:
-  //     if ((millis() - timeout) > DISPLAYTIMEOUT) {
-  //       renderCurrentPatchPage();
-  //     } else {
-  //       renderCurrentParameterPage();
-  //     }
-  //     break;
-  //   case RECALL:
-  //     renderRecallPage();
-  //     break;
-  //   case SAVE:
-  //     renderSavePage();
-  //     break;
-  //   case REINITIALISE:
-  //     renderReinitialisePage();
-  //     tft.updateScreen();  //update before delay
-  //     threads.delay(1000);
-  //     state = PARAMETER;
-  //     break;
-  //   case PATCHNAMING:
-  //     renderPatchNamingPage();
-  //     break;
-  //   case PATCH:
-  //     renderCurrentPatchPage();
-  //     break;
-  //   case DELETE:
-  //     renderDeletePatchPage();
-  //     break;
-  //   case DELETEMSG:
-  //     renderDeleteMessagePage();
-  //     break;
-  //   case SETTINGS:
-  //   case SETTINGSVALUE:
-  //     renderSettingsPage();
-  //     break;
-  // }
-  // tft.updateScreen();
 }
 
 void setupDisplay()
