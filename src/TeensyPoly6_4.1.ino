@@ -2735,8 +2735,8 @@ FLASHMEM void setCurrentPatchData(String data[]) {
   updateVolA();
   updateVolB();
   updateVolC();
-  // updateTuneB();
-  // updateTuneC();
+  updateTuneB();
+  updateTuneC();
   updateSubVol();
   updateFilterMode();
   updateCutoff();
@@ -2770,7 +2770,7 @@ FLASHMEM void setCurrentPatchData(String data[]) {
 }
 
 FLASHMEM String getCurrentPatchData() {
-  return patchName + "," + String(octave) + "," + String(octaveB) + "," + String(octaveC) + "," + String(shapeA) + "," + String(shapeB) + "," + String(shapeC) + "," + String(tuneB) + "," + String(tuneC)
+  return patchName + "," + String(octave) + "," + String(octaveB) + "," + String(octaveC) + "," + String(shapeA) + "," + String(shapeB) + "," + String(shapeC) + "," + String(tuneB, 4) + "," + String(tuneC, 4)
          + "," + String(crossMod) + "," + String(vcoAvol) + "," + String(vcoBvol) + "," + String(vcoCvol) + "," + String(Subvol) + "," + String(cut) + "," + String(res) + "," + String(filtAtt) + "," + String(filtDec)
          + "," + String(filtAmt) + "," + String(FILTER_MODE) + "," + String(envAtt) + "," + String(envDec) + "," + String(envRel) + "," + String(envSus) + "," + String(lfoAamp) + "," + String(lfoAfreq)
          + "," + String(lfoAdel) + "," + String(lfoAatt) + "," + String(lfoAdec) + "," + String(lfoArel) + "," + String(lfoAsus) + "," + String(lfoBamp) + "," + String(lfoBfreq) + "," + String(dlyAmt)
@@ -2875,6 +2875,7 @@ FLASHMEM void checkMux() {
         } else {
           tuneC = ((float)mux12 / 510);
         }
+        tuneC = roundf(tuneC * 10000.0f) / 10000.0f;
         updateTuneC();
         break;
       case 5:
@@ -2884,6 +2885,7 @@ FLASHMEM void checkMux() {
         } else {
           tuneB = ((float)mux13 / 510);
         }
+        tuneB = roundf(tuneB * 10000.0f) / 10000.0f;
         updateTuneB();
         break;
       case 6:
@@ -3452,7 +3454,7 @@ void loop() {
   vcoA8.frequency(noteFreqs[note8freq] * octave * bend * detune);
   vcoB8.frequency(noteFreqs[note8freq] * octave * octaveB * tuneB * bend * detune);
   vcoC8.frequency(noteFreqs[note8freq] * octave * octaveC * tuneC * bend * detune);
-  sub8.frequency(noteFreqs[note8freq] / 2 * octave * bend * detune);
+  sub8.frequency(noteFreqs[note8freq] / 2 * octave * bend);
 
   vcoA9.frequency(noteFreqs[note9freq] * octave * bend);
   vcoB9.frequency(noteFreqs[note9freq] * octave * octaveB * tuneB * bend);
