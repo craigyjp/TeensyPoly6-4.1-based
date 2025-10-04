@@ -389,7 +389,6 @@ void setup() {
   patchCord1041.disconnect();  //lfoAenv12, 0, vcoC12
   patchCord1042.disconnect();  //lfoAenv12, 0, sub12
   patchCord1043.disconnect();  //lfoAenv12, 0, filterMix12
-
 }
 
 int getVoiceNo(int note) {
@@ -2307,6 +2306,11 @@ void myControlChange(byte channel, byte control, byte value) {
       if (mux3 > 1023) {
         mux3 = 1023;
       }
+      if (lfoAdest == 0 && lfoAshape != 2) {
+        lfoAamp = ((float)mux3) / 1024 / 10;
+      } else {
+        lfoAamp = ((float)mux3) / 1024 / 3;
+      }
       updateLFOAmount();
       mux3 = oldmux3;
       break;
@@ -2511,6 +2515,11 @@ void myAfterTouch(byte channel, byte value) {
   mux3 = mux3 + midiMod;
   if (mux3 > 1023) {
     mux3 = 1023;
+  }
+  if (lfoAdest == 0 && lfoAshape != 2) {
+    lfoAamp = ((float)mux3) / 1024 / 10;
+  } else {
+    lfoAamp = ((float)mux3) / 1024 / 3;
   }
   updateLFOAmount();
   mux3 = oldmux3;
