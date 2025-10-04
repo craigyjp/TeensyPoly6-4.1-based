@@ -390,8 +390,6 @@ void setup() {
   patchCord1042.disconnect();  //lfoAenv12, 0, sub12
   patchCord1043.disconnect();  //lfoAenv12, 0, filterMix12
 
-
-  recallPatch(patchNo);  //Load first patch
 }
 
 int getVoiceNo(int note) {
@@ -3067,8 +3065,13 @@ FLASHMEM void checkMux() {
   }
 
   muxInput++;
-  if (muxInput >= MUXCHANNELS)
+  if (muxInput >= MUXCHANNELS) {
     muxInput = 0;
+    if (!firstPatchLoaded) {
+      recallPatch(patchNo);  // Load first patch after all controls read
+      firstPatchLoaded = true;
+    }
+  }
 
   digitalWriteFast(MUX1, muxInput & B0001);
   digitalWriteFast(MUX2, muxInput & B0010);
@@ -3154,7 +3157,6 @@ void checkSwitches() {
           patches.push({ patches.size() + 1, INITPATCHNAME });
           state = SAVE;
         }
-        //updateScreen();
         break;
       case SAVE:
         //Save as new patch with INITIALPATCH name or overwrite existing keeping name - bypassing patch renaming
@@ -3167,7 +3169,6 @@ void checkSwitches() {
         setPatchesOrdering(patchNo);
         renamedPatch = "";
         state = PARAMETER;
-        //updateScreen();
         break;
       case PATCHNAMING:
         if (renamedPatch.length() > 0) patchName = renamedPatch;  //Prevent empty strings
@@ -3179,7 +3180,6 @@ void checkSwitches() {
         setPatchesOrdering(patchNo);
         renamedPatch = "";
         state = PARAMETER;
-        //updateScreen();
         break;
     }
   }
@@ -3190,22 +3190,18 @@ void checkSwitches() {
     //Reinitialise all hardware values to force them to be re-read if different
     state = REINITIALISE;
     reinitialiseToPanel();
-    //updateScreen();
   } else if (settingsButton.numClicks() == 1) {
     switch (state) {
       case PARAMETER:
         state = SETTINGS;
         showSettingsPage();
-        //updateScreen();
         break;
       case SETTINGS:
         showSettingsPage();
-        //updateScreen();
       case SETTINGSVALUE:
         settings::save_current_value();
         state = SETTINGS;
         showSettingsPage();
-        //updateScreen();
         break;
     }
   }
@@ -3214,40 +3210,33 @@ void checkSwitches() {
   if (backButton.held()) {
     //If Back button held, Panic - all notes off
     allNotesOff();
-    //updateScreen();  //Hack
   } else if (backButton.numClicks() == 1) {
     switch (state) {
       case RECALL:
         setPatchesOrdering(patchNo);
         state = PARAMETER;
-        //updateScreen();
         break;
       case SAVE:
         renamedPatch = "";
         state = PARAMETER;
         loadPatches();  //Remove patch that was to be saved
         setPatchesOrdering(patchNo);
-        //updateScreen();
         break;
       case PATCHNAMING:
         charIndex = 0;
         renamedPatch = "";
         state = SAVE;
-        //updateScreen();
         break;
       case DELETE:
         setPatchesOrdering(patchNo);
         state = PARAMETER;
-        //updateScreen();
         break;
       case SETTINGS:
         state = PARAMETER;
-        //updateScreen();
         break;
       case SETTINGSVALUE:
         state = SETTINGS;
         showSettingsPage();
-        //updateScreen();
         break;
     }
   }
@@ -3262,12 +3251,10 @@ void checkSwitches() {
     patchNo = patches.first().patchNo;
     recallPatch(patchNo);
     state = PARAMETER;
-    //updateScreen();
   } else if (recallButton.numClicks() == 1) {
     switch (state) {
       case PARAMETER:
         state = RECALL;  //show patch list
-        //updateScreen();
         break;
       case RECALL:
         state = PATCH;
@@ -3275,13 +3262,11 @@ void checkSwitches() {
         patchNo = patches.first().patchNo;
         recallPatch(patchNo);
         state = PARAMETER;
-        //updateScreen();
         break;
       case SAVE:
         showRenamingPage(patches.last().patchName);
         patchName = patches.last().patchName;
         state = PATCHNAMING;
-        //updateScreen();
         break;
       case PATCHNAMING:
         if (renamedPatch.length() < 13) {
@@ -3290,7 +3275,6 @@ void checkSwitches() {
           currentCharacter = CHARACTERS[charIndex];
           showRenamingPage(renamedPatch);
         }
-        //updateScreen();
         break;
       case DELETE:
         //Don't delete final patch
@@ -3306,18 +3290,15 @@ void checkSwitches() {
           recallPatch(patchNo);               //Load first patch
         }
         state = PARAMETER;
-        //updateScreen();
         break;
       case SETTINGS:
         state = SETTINGSVALUE;
         showSettingsPage();
-        //updateScreen();
         break;
       case SETTINGSVALUE:
         settings::save_current_value();
         state = SETTINGS;
         showSettingsPage();
-        //updateScreen();
         break;
     }
   }
@@ -3353,35 +3334,28 @@ void checkEncoder() {
         patchNo = patches.first().patchNo;
         recallPatch(patchNo);
         state = PARAMETER;
-        //updateScreen();
         break;
       case RECALL:
         patches.push(patches.shift());
-        //updateScreen();
         break;
       case SAVE:
         patches.push(patches.shift());
-        //updateScreen();
         break;
       case PATCHNAMING:
         if (charIndex == TOTALCHARS) charIndex = 0;  //Wrap around
         currentCharacter = CHARACTERS[charIndex++];
         showRenamingPage(renamedPatch + currentCharacter);
-        //updateScreen();
         break;
       case DELETE:
         patches.push(patches.shift());
-        //updateScreen();
         break;
       case SETTINGS:
         settings::increment_setting();
         showSettingsPage();
-        //updateScreen();
         break;
       case SETTINGSVALUE:
         settings::increment_setting_value();
         showSettingsPage();
-        //updateScreen();
         break;
     }
     encPrevious = encRead;
@@ -3393,37 +3367,29 @@ void checkEncoder() {
         patchNo = patches.first().patchNo;
         recallPatch(patchNo);
         state = PARAMETER;
-        //updateScreen();
         break;
       case RECALL:
         patches.unshift(patches.pop());
-        //updateScreen();
         break;
       case SAVE:
-        //if (patchNo < 57 ) patchNo = 57;
         patches.unshift(patches.pop());
-        //updateScreen();
         break;
       case PATCHNAMING:
         if (charIndex == -1)
           charIndex = TOTALCHARS - 1;
         currentCharacter = CHARACTERS[charIndex--];
         showRenamingPage(renamedPatch + currentCharacter);
-        //updateScreen();
         break;
       case DELETE:
         patches.unshift(patches.pop());
-        //updateScreen();
         break;
       case SETTINGS:
         settings::decrement_setting();
         showSettingsPage();
-        //updateScreen();
         break;
       case SETTINGSVALUE:
         settings::decrement_setting_value();
         showSettingsPage();
-        //updateScreen();
         break;
     }
     encPrevious = encRead;
@@ -3437,12 +3403,6 @@ void loop() {
   checkEncoder();
   MIDI.read(midiChannel);
   usbMIDI.read(midiChannel);
-
-  // if (waitingToUpdate && (millis() - lastDisplayTriggerTime >= displayTimeout)) {
-  //   updateScreen();  // retrigger
-  //   waitingToUpdate = false;
-  // }
-
 
   //voice 1 frequencies
   vcoA1.frequency(noteFreqs[note1freq] * octave * bend);

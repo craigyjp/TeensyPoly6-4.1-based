@@ -1,10 +1,14 @@
 //Values below are just for initialising and will be changed when synth is initialised to current panel controls & EEPROM settings
 byte midiChannel = 0;
+byte midiOutCh = midiChannel;
+boolean patchRecall = false;
+int MIDIThru = midi::Thru::Off;  //(EEPROM)
 
 unsigned long lastDisplayTriggerTime = 0;
 bool waitingToUpdate = false;
 const unsigned long displayTimeout = 2000;  // e.g. 5 seconds
 bool announce = false;
+bool firstPatchLoaded = false;
 
 byte pitchBendRange;
 byte modWheelDepth;
@@ -21,13 +25,6 @@ int lfoAttackstr = 0;
 int lfoDecaystr = 0;
 float PWMFreqstr = 0;
 
-byte ccChannel = midiChannel;
-byte midiOutCh = midiChannel;
-boolean patchRecall = false;
-
-#define TOLERANCE 3
-
-int MIDIThru = midi::Thru::Off;  //(EEPROM)
 String patchName = INITPATCHNAME;
 boolean encCW = true;  //This is to set the encoder to increment when turned CW - Settings Option
 
@@ -539,7 +536,6 @@ AudioSynthWaveformModulated       *vcoC[12] = {
 };
 
 int midiMod = 0;
-
 float newpitchbend = 0;
 
 ///// notes, frequencies, voices /////////////////////////////////////////////////////////////////////////
@@ -558,9 +554,6 @@ int note9freq;
 int note10freq;
 int note11freq;
 int note12freq;
-
-//int voices;
-
 
 //checks if notes are on or not
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -581,10 +574,6 @@ bool env12on = false;
 //int vol of vcos.
 float vcoVol = 0.07;
 float mainVol;
-
-
-
-
 float bend = 1.00;
 
 //voice mixer
@@ -613,7 +602,6 @@ int shapeA;
 int shapeB;
 int shapeC = 1;
 
-
 //filter
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 int cut = 2000;
@@ -621,9 +609,7 @@ float res = 1;
 int filtAtt;
 int filtDec;
 float filtAmt;
-
 int filterMode;
-
 
 //envelope
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -641,23 +627,18 @@ int lfoAatt;
 int lfoAdec;
 int lfoArel;
 float lfoAsus;
-
 int lfoAshape;
 int lfoAdest;
-
 
 //tremolo
 float ampMod;
 float readInt = 1.0001;
 unsigned long prevTime;
 
-
 //lfo B
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 float lfoBamp;
 float lfoBfreq;
-
-
 
 //delay
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -671,11 +652,6 @@ float dlyTimeR;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 float revMix;
 float revSize;
-
-
-
-
-
 
 int timer = 6;
 unsigned long prevTimer;
