@@ -535,6 +535,8 @@ AudioSynthWaveformModulated       *vcoC[12] = {
   &vcoC7, &vcoC8, &vcoC9, &vcoC10, &vcoC11, &vcoC12
 };
 
+float voiceDetune[12] = {1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000};
+
 int midiMod = 0;
 float newpitchbend = 0;
 

@@ -794,14 +794,14 @@ void commandTopNote() {
     }
   }
 
-  if (noteActive)
+  if (noteActive) {
     commandNote(topNote);
-  else  // All notes are off, turn off gate
-
+  } else {  // All notes are off, turn off gate
     env1.noteOff();
-  filterEnv1.noteOff();
-  lfoAenv1.noteOff();
-  env1on = false;
+    filterEnv1.noteOff();
+    lfoAenv1.noteOff();
+    env1on = false;
+  }
 }
 
 void commandBottomNote() {
@@ -816,13 +816,14 @@ void commandBottomNote() {
     }
   }
 
-  if (noteActive)
+  if (noteActive) {
     commandNote(bottomNote);
-  else  // All notes are off, turn off gate
+  } else {  // All notes are off, turn off gate
     env1.noteOff();
-  filterEnv1.noteOff();
-  lfoAenv1.noteOff();
-  env1on = false;
+    filterEnv1.noteOff();
+    lfoAenv1.noteOff();
+    env1on = false;
+  }
 }
 
 void commandLastNote() {
@@ -862,19 +863,25 @@ void commandTopNoteUnison() {
     }
   }
 
-  if (noteActive)
+  if (noteActive) {
     commandNoteUnison(topNote);
-  else  // All notes are off, turn off gate
+  } else {  // All notes are off, turn off gate
 
     env1.noteOff();
-  filterEnv1.noteOff();
-  lfoAenv1.noteOff();
-  env1on = false;
+    filterEnv1.noteOff();
+    lfoAenv1.noteOff();
+    env1on = false;
 
-  env2.noteOff();
-  filterEnv2.noteOff();
-  lfoAenv2.noteOff();
-  env2on = false;
+    env2.noteOff();
+    filterEnv2.noteOff();
+    lfoAenv2.noteOff();
+    env2on = false;
+
+    env3.noteOff();
+    filterEnv3.noteOff();
+    lfoAenv3.noteOff();
+    env3on = false;
+  }
 }
 
 void commandBottomNoteUnison() {
@@ -889,18 +896,24 @@ void commandBottomNoteUnison() {
     }
   }
 
-  if (noteActive)
+  if (noteActive) {
     commandNoteUnison(bottomNote);
-  else  // All notes are off, turn off gate
+  } else {  // All notes are off, turn off gate
     env1.noteOff();
-  filterEnv1.noteOff();
-  lfoAenv1.noteOff();
-  env1on = false;
+    filterEnv1.noteOff();
+    lfoAenv1.noteOff();
+    env1on = false;
 
-  env2.noteOff();
-  filterEnv2.noteOff();
-  lfoAenv2.noteOff();
-  env2on = false;
+    env2.noteOff();
+    filterEnv2.noteOff();
+    lfoAenv2.noteOff();
+    env2on = false;
+
+    env3.noteOff();
+    filterEnv3.noteOff();
+    lfoAenv3.noteOff();
+    env3on = false;
+  }
 }
 
 void commandLastNoteUnison() {
@@ -923,21 +936,38 @@ void commandLastNoteUnison() {
   filterEnv2.noteOff();
   lfoAenv2.noteOff();
   env2on = false;
+
+  env3.noteOff();
+  filterEnv3.noteOff();
+  lfoAenv3.noteOff();
+  env3on = false;
 }
 
 void commandNoteUnison(int note) {
-
   note1freq = note;
+  note2freq = note;
+  note3freq = note;
+
+  float offset = detune - 1.000;  // difference from unity (e.g. 0.02)
+
+  voiceDetune[0] = 1.000;   // Base pitch
+  voiceDetune[1] = 1.000 + offset;  // Detuned voice
+  voiceDetune[2] = 1.000 + (2.0 * offset);  // Detuned voice
+
   env1.noteOn();
   filterEnv1.noteOn();
   lfoAenv1.noteOn();
   env1on = true;
 
-  note2freq = note;
   env2.noteOn();
   filterEnv2.noteOn();
   lfoAenv2.noteOn();
   env2on = true;
+
+  env3.noteOn();
+  filterEnv3.noteOn();
+  lfoAenv3.noteOn();
+  env3on = true;
 }
 
 void allNotesOff() {
@@ -3416,20 +3446,20 @@ void loop() {
   usbMIDI.read(midiChannel);
 
   //voice 1 frequencies
-  vcoA1.frequency(noteFreqs[note1freq] * octave * bend);
-  vcoB1.frequency(noteFreqs[note1freq] * octave * octaveB * tuneB * bend);
-  vcoC1.frequency(noteFreqs[note1freq] * octave * octaveC * tuneC * bend);
-  sub1.frequency(noteFreqs[note1freq] / 2 * octave * bend);
+  vcoA1.frequency(noteFreqs[note1freq] * octave * bend * voiceDetune[0]);
+  vcoB1.frequency(noteFreqs[note1freq] * octave * octaveB * tuneB * bend * voiceDetune[0]);
+  vcoC1.frequency(noteFreqs[note1freq] * octave * octaveC * tuneC * bend * voiceDetune[0]);
+  sub1.frequency(noteFreqs[note1freq] / 2 * octave * bend * voiceDetune[0]);
 
-  vcoA2.frequency(noteFreqs[note2freq] * octave * bend * detune);
-  vcoB2.frequency(noteFreqs[note2freq] * octave * octaveB * tuneB * bend * detune);
-  vcoC2.frequency(noteFreqs[note2freq] * octave * octaveC * tuneC * bend * detune);
-  sub2.frequency(noteFreqs[note2freq] / 2 * octave * bend * detune);
+  vcoA2.frequency(noteFreqs[note2freq] * octave * bend * voiceDetune[1]);
+  vcoB2.frequency(noteFreqs[note2freq] * octave * octaveB * tuneB * bend * voiceDetune[1]);
+  vcoC2.frequency(noteFreqs[note2freq] * octave * octaveC * tuneC * bend * voiceDetune[1]);
+  sub2.frequency(noteFreqs[note2freq] / 2 * octave * bend * voiceDetune[1]);
 
-  vcoA3.frequency(noteFreqs[note3freq] * octave * bend);
-  vcoB3.frequency(noteFreqs[note3freq] * octave * octaveB * tuneB * bend);
-  vcoC3.frequency(noteFreqs[note3freq] * octave * octaveC * tuneC * bend);
-  sub3.frequency(noteFreqs[note3freq] / 2 * octave * bend);
+  vcoA3.frequency(noteFreqs[note3freq] * octave * bend * voiceDetune[2]);
+  vcoB3.frequency(noteFreqs[note3freq] * octave * octaveB * tuneB * bend * voiceDetune[2]);
+  vcoC3.frequency(noteFreqs[note3freq] * octave * octaveC * tuneC * bend * voiceDetune[2]);
+  sub3.frequency(noteFreqs[note3freq] / 2 * octave * bend * voiceDetune[2]);
 
   vcoA4.frequency(noteFreqs[note4freq] * octave * bend);
   vcoB4.frequency(noteFreqs[note4freq] * octave * octaveB * tuneB * bend);
@@ -3451,9 +3481,9 @@ void loop() {
   vcoC7.frequency(noteFreqs[note7freq] * octave * octaveC * tuneC * bend);
   sub7.frequency(noteFreqs[note7freq] / 2 * octave * bend);
 
-  vcoA8.frequency(noteFreqs[note8freq] * octave * bend * detune);
-  vcoB8.frequency(noteFreqs[note8freq] * octave * octaveB * tuneB * bend * detune);
-  vcoC8.frequency(noteFreqs[note8freq] * octave * octaveC * tuneC * bend * detune);
+  vcoA8.frequency(noteFreqs[note8freq] * octave * bend);
+  vcoB8.frequency(noteFreqs[note8freq] * octave * octaveB * tuneB * bend);
+  vcoC8.frequency(noteFreqs[note8freq] * octave * octaveC * tuneC * bend);
   sub8.frequency(noteFreqs[note8freq] / 2 * octave * bend);
 
   vcoA9.frequency(noteFreqs[note9freq] * octave * bend);
