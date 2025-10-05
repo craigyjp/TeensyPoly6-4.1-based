@@ -54,7 +54,9 @@ AudioEffectEnvelope lfoAenv9;   //xy=197,944
 AudioEffectEnvelope lfoAenv10;  //xy=203,1194
 AudioEffectEnvelope lfoAenv11;  //xy=205,1464
 AudioEffectEnvelope lfoAenv12;  //xy=211,119
-AudioAnalyzeRMS lfoAread1;      //xy=214,202
+
+AudioRecordQueue lfoAQueue;
+
 AudioMixer4 modMix1;            //xy=227,38
 AudioMixer4 modMix2;            //xy=237,307
 AudioMixer4 modMix3;            //xy=239,567
@@ -225,6 +227,8 @@ AudioMixer4 fxL;                    //xy=2295,737
 AudioMixer4 fxR;                    //xy=2295,859
 AudioOutputI2S i2s1;                //xy=2465,805
 
+AudioConnection patchCordLFOQueue(lfoAenv1, 0, lfoAQueue, 0);
+
 AudioConnection patchCord1(lfoA1, lfoAenv1);
 AudioConnection patchCord2(lfoA1, lfoAenv2);
 AudioConnection patchCord3(lfoA1, lfoAenv3);
@@ -325,8 +329,6 @@ AudioConnection patchCord1046(lfoAenv12, 0, vcoC12, 0);
 AudioConnection patchCord1047(lfoAenv12, 0, sub12, 0);
 AudioConnection patchCord1048(lfoAenv12, 0, filterMix12, 1);
 
-
-AudioConnection patchCord49(lfoAenv1, lfoAread1);
 
 AudioConnection patchCord50(modMix1, 0, vcoA1, 0);
 AudioConnection patchCord51(modMix2, 0, vcoA2, 0);
@@ -642,6 +644,8 @@ bool env12on = false;
 float vcoVol = 0.07;
 float mainVol;
 float bend = 1.00;
+float atScale = 0.0f;
+float mwScale = 0.0f;
 
 //voice mixer
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////

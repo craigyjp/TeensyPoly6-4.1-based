@@ -199,6 +199,8 @@ void setup() {
   //lfo B
   lfoB1.begin(0.5, 1, WAVEFORM_TRIANGLE);
 
+  // AM Queue
+  lfoAQueue.begin();
 
   //dly
   dlyFiltL.frequency(4000);
@@ -292,7 +294,7 @@ void setup() {
   patchCord1047.disconnect();  //lfoAenv12, 0, sub12
   patchCord1048.disconnect();  //lfoAenv12, 0, filterMix12
 
-  patchCord49.disconnect();  //lfoAenv1, lfoAread1
+  patchCordLFOQueue.disconnect();
 }
 
 int getVoiceNo(int note) {
@@ -1802,13 +1804,9 @@ FLASHMEM void updateSustain() {
 }
 
 FLASHMEM void updateLFOAmount() {
-  // if (lfoAdest == 0 && lfoAshape != 2) {
-  //   lfoAamp = ((float)mux3) / 1024 / 10;
-  // } else {
-  //   lfoAamp = ((float)mux3) / 1024 / 3;
-  // }
-  //lfo A params
+
   lfoA1.amplitude(lfoAamp);
+
   if (!announce) {
     showCurrentParameterPage("LFO Amount", String(mux3 >> 3));
   }
@@ -1816,13 +1814,9 @@ FLASHMEM void updateLFOAmount() {
 }
 
 FLASHMEM void updateATAmount() {
-  // if (lfoAdest == 0 && lfoAshape != 2) {
-  //   lfoAamp = ((float)mux3) / 1024 / 10;
-  // } else {
-  //   lfoAamp = ((float)mux3) / 1024 / 3;
-  // }
-  //lfo A params
+
   lfoA1.amplitude(lfoAamp);
+
   if (!announce) {
     showCurrentParameterPage("AT Depth", String(mux3 >> 3));
   }
@@ -1830,13 +1824,9 @@ FLASHMEM void updateATAmount() {
 }
 
 FLASHMEM void updateMWAmount() {
-  // if (lfoAdest == 0 && lfoAshape != 2) {
-  //   lfoAamp = ((float)mux3) / 1024 / 10;
-  // } else {
-  //   lfoAamp = ((float)mux3) / 1024 / 3;
-  // }
-  //lfo A params
+
   lfoA1.amplitude(lfoAamp);
+
   if (!announce) {
     showCurrentParameterPage("MW Depth", String(mux3 >> 3));
   }
@@ -1911,7 +1901,7 @@ FLASHMEM void updateLFODestination() {
   }
   //LFO A DESTINATION
   if (lfoAdest == 0) {  //lfo - pitch
-
+    
     patchCord44.connect();     //lfoAenv1, 0, modMix1
     patchCord45.connect();     //lfoAenv1, 0, vcoB1
     patchCord46.connect();     //lfoAenv1, 0, vcoC1
@@ -1984,10 +1974,9 @@ FLASHMEM void updateLFODestination() {
     patchCord1047.connect();     //lfoAenv12, 0, sub12
     patchCord1048.disconnect();  //lfoAenv12, 0, filterMix12
 
-    patchCord49.disconnect();  //lfoAread.
+    patchCordLFOQueue.disconnect();
   }
   if (lfoAdest == 1) {  //lfo - filter
-
     patchCord44.disconnect();  //lfoAenv1, 0, modMix1
     patchCord45.disconnect();  //lfoAenv1, 0, vcoB1
     patchCord46.disconnect();  //lfoAenv1, 0, vcoC1
@@ -2060,10 +2049,9 @@ FLASHMEM void updateLFODestination() {
     patchCord1047.disconnect();  //lfoAenv12, 0, sub12
     patchCord1048.connect();     //lfoAenv12, 0, filterMix12
 
-    patchCord49.disconnect();  //lfoAread.
+    patchCordLFOQueue.disconnect();
   }
   if (lfoAdest == 2) {  //lfo - amp
-
     patchCord44.disconnect();  //lfoAenv1, 0, modMix1
     patchCord45.disconnect();  //lfoAenv1, 0, vcoB1
     patchCord46.disconnect();  //lfoAenv1, 0, vcoC1
@@ -2136,7 +2124,7 @@ FLASHMEM void updateLFODestination() {
     patchCord1047.disconnect();  //lfoAenv12, 0, sub12
     patchCord1048.disconnect();  //lfoAenv12, 0, filterMix12
 
-    patchCord49.connect();  //lfoAread.
+    patchCordLFOQueue.connect();
   }
 }
 
@@ -2252,62 +2240,41 @@ void myControlChange(byte channel, byte control, byte value) {
   switch (control) {
 
     case CCmodwheel:
-      switch (modWheelDepth) {
-        case 0:
-          midiMod = 0;
-          break;
+      {
+        switch (modWheelDepth) {
+          case 0: mwScale = 0.0f; break;
+          case 1: mwScale = 1.0f / 5.0f; break;
+          case 2: mwScale = 1.0f / 4.0f; break;
+          case 3: mwScale = 1.0f / 3.5f; break;
+          case 4: mwScale = 1.0f / 3.0f; break;
+          case 5: mwScale = 1.0f / 2.5f; break;
+          case 6: mwScale = 1.0f / 2.0f; break;
+          case 7: mwScale = 1.0f / 1.75f; break;
+          case 8: mwScale = 1.0f / 1.5f; break;
+          case 9: mwScale = 1.0f / 1.25f; break;
+          case 10: mwScale = 1.0f; break;
+          default: mwScale = 0.0f; break;
+        }
 
-        case 1:
-          midiMod = ((value << 3) / 5);
-          break;
+        // Compute modulation
+        float midiMod = (value << 3) * mwScale;
 
-        case 2:
-          midiMod = ((value << 3) / 4);
-          break;
+        // Apply modulation
+        int oldmux3 = mux3;
+        mux3 = mux3 + midiMod;
+        if (mux3 > 1023) mux3 = 1023;
 
-        case 3:
-          midiMod = ((value << 3) / 3.5);
-          break;
-
-        case 4:
-          midiMod = ((value << 3) / 3);
-          break;
-
-        case 5:
-          midiMod = ((value << 3) / 2.5);
-          break;
-
-        case 6:
-          midiMod = ((value << 3) / 2);
-          break;
-
-        case 7:
-          midiMod = ((value << 3) / 1.75);
-          break;
-
-        case 8:
-          midiMod = ((value << 3) / 1.5);
-          break;
-
-        case 9:
-          midiMod = ((value << 3) / 1.25);
-          break;
-
-        case 10:
-          midiMod = (value << 3);
-          break;
+        if (lfoAdest == 0 && lfoAshape != 2) {
+          lfoAamp = ((float)mux3) / 1024 / 10;
+        } else if (lfoAdest == 1 && lfoAshape != 2) {
+          lfoAamp = ((float)mux3) / 1024 / 3;
+        } else {
+          lfoAamp = ((float)mux3) / 1024;
+        }
+        mux3 = oldmux3;
+        break;
       }
-      oldmux3 = mux3;
-      mux3 = mux3 + midiMod;
-      if (mux3 > 1023) {
-        mux3 = 1023;
-      }
-      if (lfoAdest == 0 && lfoAshape != 2) {
-        lfoAamp = ((float)mux3) / 1024 / 10;
-      } else {
-        lfoAamp = ((float)mux3) / 1024 / 3;
-      }
-      updateMWAmount();
+      // restore base control value so modulation is temporary
       mux3 = oldmux3;
       break;
 
@@ -2462,63 +2429,38 @@ void myControlChange(byte channel, byte control, byte value) {
 }
 
 void myAfterTouch(byte channel, byte value) {
+
   switch (afterTouchDepth) {
-    case 0:
-      midiMod = 0;
-      break;
-
-    case 1:
-      midiMod = ((value << 3) / 5);
-      break;
-
-    case 2:
-      midiMod = ((value << 3) / 4);
-      break;
-
-    case 3:
-      midiMod = ((value << 3) / 3.5);
-      break;
-
-    case 4:
-      midiMod = ((value << 3) / 3);
-      break;
-
-    case 5:
-      midiMod = ((value << 3) / 2.5);
-      break;
-
-    case 6:
-      midiMod = ((value << 3) / 2);
-      break;
-
-    case 7:
-      midiMod = ((value << 3) / 1.75);
-      break;
-
-    case 8:
-      midiMod = ((value << 3) / 1.5);
-      break;
-
-    case 9:
-      midiMod = ((value << 3) / 1.25);
-      break;
-
-    case 10:
-      midiMod = (value << 3);
-      break;
+    case 0: atScale = 0.0f; break;
+    case 1: atScale = 1.0f / 5.0f; break;
+    case 2: atScale = 1.0f / 4.0f; break;
+    case 3: atScale = 1.0f / 3.5f; break;
+    case 4: atScale = 1.0f / 3.0f; break;
+    case 5: atScale = 1.0f / 2.5f; break;
+    case 6: atScale = 1.0f / 2.0f; break;
+    case 7: atScale = 1.0f / 1.75f; break;
+    case 8: atScale = 1.0f / 1.5f; break;
+    case 9: atScale = 1.0f / 1.25f; break;
+    case 10: atScale = 1.0f; break;
   }
-  oldmux3 = mux3;
-  mux3 = mux3 + midiMod;
-  if (mux3 > 1023) {
-    mux3 = 1023;
-  }
+
+  // Scale the aftertouch value (0–127) to modulation offset
+  midiMod = (value << 3) * atScale;  // ≈ 0–1024 range
+
+  // Combine base mux3 (from knob) + aftertouch offset
+  int combined = constrain((int)mux3 + midiMod, 0, 1023);
+
+  // Compute the *effective modulation amount* based on LFO dest
+  float effectiveLFOAmp;
   if (lfoAdest == 0 && lfoAshape != 2) {
-    lfoAamp = ((float)mux3) / 1024 / 10;
+    effectiveLFOAmp = (float)combined / 1024.0f / 10.0f;
+  } else if (lfoAdest == 1 && lfoAshape != 2) {
+    effectiveLFOAmp = (float)combined / 1024.0f / 3.0f;
   } else {
-    lfoAamp = ((float)mux3) / 1024 / 3;
+    effectiveLFOAmp = (float)combined / 1024.0f;
   }
-  updateATAmount();
-  mux3 = oldmux3;
+
+  lfoAamp = effectiveLFOAmp;
 }
 
 void myPitchBend(byte channel, int pitch) {
@@ -2713,7 +2655,7 @@ FLASHMEM void setCurrentPatchData(String data[]) {
   revMix = data[36].toFloat();
   revSize = data[37].toFloat();
   LFOA_DEST_1 = data[38].toInt();
-  LFOA_SHAPE_1 = data[39].toFloat();
+  LFOA_SHAPE_1 = data[39].toInt();
   modWheelDepth = data[40].toInt();
   pitchBendRange = data[41].toInt();
   afterTouchDepth = data[42].toInt();
@@ -2722,6 +2664,7 @@ FLASHMEM void setCurrentPatchData(String data[]) {
   MONO_POLY_1 = data[45].toInt();
   MONO_POLY_2 = data[46].toInt();
   LFOA_DEST_2 = data[47].toInt();
+  LFOA_SHAPE_2 = data[48].toInt();
 
   updateVolume();
   updateCrossMod();
@@ -2771,7 +2714,7 @@ FLASHMEM String getCurrentPatchData() {
          + "," + String(filtAmt) + "," + String(FILTER_MODE) + "," + String(envAtt) + "," + String(envDec) + "," + String(envRel) + "," + String(envSus) + "," + String(lfoAamp) + "," + String(lfoAfreq)
          + "," + String(lfoAdel) + "," + String(lfoAatt) + "," + String(lfoAdec) + "," + String(lfoArel) + "," + String(lfoAsus) + "," + String(lfoBamp) + "," + String(lfoBfreq) + "," + String(dlyAmt)
          + "," + String(dlyTimeL) + "," + String(dlyTimeR) + "," + String(revMix) + "," + String(revSize) + "," + String(LFOA_DEST_1) + "," + String(LFOA_SHAPE_1) + "," + String(modWheelDepth) + "," + String(pitchBendRange)
-         + "," + String(afterTouchDepth) + "," + String(NP) + "," + String(unidetune) + "," + String(MONO_POLY_1) + "," + String(MONO_POLY_2) + "," + String(LFOA_DEST_2);
+         + "," + String(afterTouchDepth) + "," + String(NP) + "," + String(unidetune) + "," + String(MONO_POLY_1) + "," + String(MONO_POLY_2) + "," + String(LFOA_DEST_2) + "," + String(LFOA_SHAPE_2);
 }
 
 FLASHMEM void checkMux() {
@@ -2808,8 +2751,10 @@ FLASHMEM void checkMux() {
         mux3 = mux1Read;
         if (lfoAdest == 0 && lfoAshape != 2) {
           lfoAamp = ((float)mux3) / 1024 / 10;
-        } else {
+        } else if (lfoAdest == 1 && lfoAshape != 2) {
           lfoAamp = ((float)mux3) / 1024 / 3;
+        } else {
+          lfoAamp = ((float)mux3) / 1024;
         }
         updateLFOAmount();
         break;
@@ -3472,14 +3417,25 @@ void loop() {
   vcoC12.frequency(noteFreqs[note12freq] * octave * octaveC * tuneC * bend * voiceDetune[11]);
   sub12.frequency(noteFreqs[note12freq] / 2 * octave * bend * voiceDetune[11]);
 
-  //lfo A read
-  unsigned long currTime = millis();
-  if (currTime - prevTime >= readInt) {
-    ampMod = lfoAread1.read();
-    prevTime = currTime;
+  if (lfoAQueue.available() > 0) {
+    int16_t *buffer = lfoAQueue.readBuffer();
+
+    // Read the first sample (or average a few)
+    float sample = (float)buffer[0] / 32767.0f;  // convert to -1..+1 range
+
+    // Unipolarize for amplitude modulation (0..1)
+    float ampMod = (sample * 0.5f) + 0.5f;
+
+    // Apply modulation depth
+    float depth = lfoAamp;  // your current LFO depth (0..1)
+    float modValue = 1.0f - (ampMod * depth);
+
+    // Apply to final mix gains
+    finalMix.gain(0, modValue);
+    finalMix.gain(1, modValue);
+    finalMix.gain(2, modValue);
+    finalMix.gain(3, modValue);
+
+    lfoAQueue.freeBuffer();
   }
-  finalMix.gain(0, (1 - (ampMod * 3.2)));
-  finalMix.gain(1, (1 - (ampMod * 3.2)));
-  finalMix.gain(2, (1 - (ampMod * 3.2)));
-  finalMix.gain(3, (1 - (ampMod * 3.2)));
 }

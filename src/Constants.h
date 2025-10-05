@@ -1,8 +1,8 @@
-const char* VERSION = "V1.4";
+const char* VERSION = "V1.5";
 
 #define RE_READ -9
 #define NO_OF_VOICES 12
-#define NO_OF_PARAMS 52
+#define NO_OF_PARAMS 53
 const char* INITPATCHNAME = "Initial Patch";
 #define HOLD_DURATION 1000
 #define PATCHES_LIMIT 999
