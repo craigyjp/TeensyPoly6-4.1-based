@@ -28,7 +28,7 @@ https://www.youtube.com/watch?v=Exk_K2VwGu0
 * Digital reverb with size and mix amount
 * Digital delay with time and mix amount
 * Programmable ranges for Pitch, Modulation and Aftertouch
-* Mono, Poly and Unison (three voices) modes, Unison detune ranges
+* Mono, Poly and Unison (2 to 12 voices) modes, Unison detune ranges
 * Note priorities for Mono and Unison modes, Top, Bottom, Last.
 * MIDI modulation, aftertouch, CC messages for controls, channel change, pitchbend.
 * 999 memories with storage of all front panel controls except volume.
