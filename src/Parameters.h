@@ -530,10 +530,27 @@ AudioConnection patchCord151(fxL, 0, i2s1, 0);
 AudioConnection patchCord152(fxR, 0, i2s1, 1);
 // GUItool: end automatically generated code
 
+AudioSynthWaveformModulated* vcoA[12] = {
+  &vcoA1, &vcoA2, &vcoA3, &vcoA4,
+  &vcoA5, &vcoA6, &vcoA7, &vcoA8,
+  &vcoA9, &vcoA10, &vcoA11, &vcoA12
+};
+
+AudioSynthWaveformModulated* vcoB[12] = {
+  &vcoB1, &vcoB2, &vcoB3, &vcoB4,
+  &vcoB5, &vcoB6, &vcoB7, &vcoB8,
+  &vcoB9, &vcoB10, &vcoB11, &vcoB12
+};
+
 AudioSynthWaveformModulated* vcoC[12] = {
   &vcoC1, &vcoC2, &vcoC3, &vcoC4, &vcoC5, &vcoC6,
   &vcoC7, &vcoC8, &vcoC9, &vcoC10, &vcoC11, &vcoC12
 };
+
+  AudioSynthWaveformModulated* sub[12] = {
+    &sub1, &sub2, &sub3, &sub4, &sub5, &sub6,
+    &sub7, &sub8, &sub9, &sub10, &sub11, &sub12
+  };
 
 AudioMixer4* modMixers[12] = {
   &modMix1, &modMix2, &modMix3, &modMix4,
