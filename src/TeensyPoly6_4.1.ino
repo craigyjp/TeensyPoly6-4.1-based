@@ -87,7 +87,7 @@ int8_t noteOrder[80] = { 0 }, orderIndx = { 0 };
 int noteMsg;
 
 void setup() {
-  AudioMemory(470);
+  AudioMemory(512);
   SPI.begin();
   setupDisplay();
   delay(1000);
@@ -139,6 +139,7 @@ void setup() {
   pitchBendRange = getPitchBendRange();
   afterTouchDepth = getafterTouchDepth();
   NP = getNotePriority();
+  uniNotes = getUnisonNotes();
   unidetune = getUnisonDetune();
   oldunidetune = unidetune;
   switch (unidetune) {
@@ -359,36 +360,36 @@ void setup() {
   patchCord41.disconnect();    //lfoAenv6, 0, vcoC6
   patchCord42.disconnect();    //lfoAenv6, 0, sub6
   patchCord43.disconnect();    //lfoAenv6, 0, filterMix6
-  patchCord1044.disconnect();  //lfoAenv7, 0, modMix7
-  patchCord1045.disconnect();  //lfoAenv7, 0, vcoB7
-  patchCord1046.disconnect();  //lfoAenv7, 0, vcoC7
-  patchCord1047.disconnect();  //lfoAenv7, 0, sub7
-  patchCord1048.disconnect();  //lfoAenv7, 0, filterMix7
-  patchCord1019.disconnect();  //lfoAenv8, 0, modMix8
-  patchCord1020.disconnect();  //lfoAenv8, 0, vcoB8
-  patchCord1021.disconnect();  //lfoAenv8, 0, vcoC8
-  patchCord1022.disconnect();  //lfoAenv8, 0, sub8
-  patchCord1023.disconnect();  //lfoAenv8, 0, filterMix8
-  patchCord1024.disconnect();  //lfoAenv9, 0, modMix9
-  patchCord1025.disconnect();  //lfoAenv9, 0, vcoB9
-  patchCord1026.disconnect();  //lfoAenv9, 0, vcoC9
-  patchCord1027.disconnect();  //lfoAenv9, 0, sub9
-  patchCord1028.disconnect();  //lfoAenv9, 0, filterMix9
-  patchCord1029.disconnect();  //lfoAenv10, 0, modMix10
-  patchCord1030.disconnect();  //lfoAenv10, 0, vcoB10
-  patchCord1031.disconnect();  //lfoAenv10, 0, vcoC10
-  patchCord1032.disconnect();  //lfoAenv10, 0, sub10
-  patchCord1033.disconnect();  //lfoAenv10, 0, filterMix10
-  patchCord1034.disconnect();  //lfoAenv11, 0, modMix11
-  patchCord1035.disconnect();  //lfoAenv11, 0, vcoB11
-  patchCord1036.disconnect();  //lfoAenv11, 0, vcoC11
-  patchCord1037.disconnect();  //lfoAenv11, 0, sub11
-  patchCord1038.disconnect();  //lfoAenv11, 0, filterMix11
-  patchCord1039.disconnect();  //lfoAenv12, 0, modMix12
-  patchCord1040.disconnect();  //lfoAenv12, 0, vcoB12
-  patchCord1041.disconnect();  //lfoAenv12, 0, vcoC12
-  patchCord1042.disconnect();  //lfoAenv12, 0, sub12
-  patchCord1043.disconnect();  //lfoAenv12, 0, filterMix12
+  patchCord1019.disconnect();  //lfoAenv7, 0, modMix7
+  patchCord1020.disconnect();  //lfoAenv7, 0, vcoB7
+  patchCord1021.disconnect();  //lfoAenv7, 0, vcoC7
+  patchCord1022.disconnect();  //lfoAenv7, 0, sub7
+  patchCord1023.disconnect();  //lfoAenv7, 0, filterMix7
+  patchCord1024.disconnect();  //lfoAenv8, 0, modMix8
+  patchCord1025.disconnect();  //lfoAenv8, 0, vcoB8
+  patchCord1025.disconnect();  //lfoAenv8, 0, vcoC8
+  patchCord1027.disconnect();  //lfoAenv8, 0, sub8
+  patchCord1028.disconnect();  //lfoAenv8, 0, filterMix8
+  patchCord1029.disconnect();  //lfoAenv9, 0, modMix9
+  patchCord1030.disconnect();  //lfoAenv9, 0, vcoB9
+  patchCord1031.disconnect();  //lfoAenv9, 0, vcoC9
+  patchCord1032.disconnect();  //lfoAenv9, 0, sub9
+  patchCord1033.disconnect();  //lfoAenv9, 0, filterMix9
+  patchCord1034.disconnect();  //lfoAenv10, 0, modMix10
+  patchCord1035.disconnect();  //lfoAenv10, 0, vcoB10
+  patchCord1036.disconnect();  //lfoAenv10, 0, vcoC10
+  patchCord1037.disconnect();  //lfoAenv10, 0, sub10
+  patchCord1038.disconnect();  //lfoAenv10, 0, filterMix10
+  patchCord1039.disconnect();  //lfoAenv11, 0, modMix11
+  patchCord1040.disconnect();  //lfoAenv11, 0, vcoB11
+  patchCord1041.disconnect();  //lfoAenv11, 0, vcoC11
+  patchCord1042.disconnect();  //lfoAenv11, 0, sub11
+  patchCord1043.disconnect();  //lfoAenv11, 0, filterMix11
+  patchCord1044.disconnect();  //lfoAenv12, 0, modMix12
+  patchCord1045.disconnect();  //lfoAenv12, 0, vcoB12
+  patchCord1046.disconnect();  //lfoAenv12, 0, vcoC12
+  patchCord1047.disconnect();  //lfoAenv12, 0, sub12
+  patchCord1048.disconnect();  //lfoAenv12, 0, filterMix12
 }
 
 int getVoiceNo(int note) {
@@ -431,6 +432,7 @@ void myNoteOn(byte channel, byte note, byte velocity) {
 
   if (MONO_POLY_1 < 511 && MONO_POLY_2 < 511) {
     detune = 1.000;  //POLYPHONIC mode
+
     if (note < 0 || note > 127) return;
     switch (getVoiceNo(-1)) {
       case 1:
@@ -866,21 +868,82 @@ void commandTopNoteUnison() {
   if (noteActive) {
     commandNoteUnison(topNote);
   } else {  // All notes are off, turn off gate
-
-    env1.noteOff();
-    filterEnv1.noteOff();
-    lfoAenv1.noteOff();
-    env1on = false;
-
-    env2.noteOff();
-    filterEnv2.noteOff();
-    lfoAenv2.noteOff();
-    env2on = false;
-
-    env3.noteOff();
-    filterEnv3.noteOff();
-    lfoAenv3.noteOff();
-    env3on = false;
+    for (int i = 0; i < uniNotes; i++) {
+      switch (i) {
+        case 0:
+          env1.noteOff();
+          filterEnv1.noteOff();
+          lfoAenv1.noteOff();
+          env1on = false;
+          break;
+        case 1:
+          env2.noteOff();
+          filterEnv2.noteOff();
+          lfoAenv2.noteOff();
+          env2on = false;
+          break;
+        case 2:
+          env3.noteOff();
+          filterEnv3.noteOff();
+          lfoAenv3.noteOff();
+          env3on = false;
+          break;
+        case 3:
+          env4.noteOff();
+          filterEnv4.noteOff();
+          lfoAenv4.noteOff();
+          env4on = false;
+          break;
+        case 4:
+          env5.noteOff();
+          filterEnv5.noteOff();
+          lfoAenv5.noteOff();
+          env5on = false;
+          break;
+        case 5:
+          env6.noteOff();
+          filterEnv6.noteOff();
+          lfoAenv6.noteOff();
+          env6on = false;
+          break;
+        case 6:
+          env7.noteOff();
+          filterEnv7.noteOff();
+          lfoAenv7.noteOff();
+          env7on = false;
+          break;
+        case 7:
+          env8.noteOff();
+          filterEnv8.noteOff();
+          lfoAenv8.noteOff();
+          env8on = false;
+          break;
+        case 8:
+          env9.noteOff();
+          filterEnv9.noteOff();
+          lfoAenv9.noteOff();
+          env9on = false;
+          break;
+        case 9:
+          env10.noteOff();
+          filterEnv10.noteOff();
+          lfoAenv10.noteOff();
+          env10on = false;
+          break;
+        case 10:
+          env11.noteOff();
+          filterEnv11.noteOff();
+          lfoAenv11.noteOff();
+          env11on = false;
+          break;
+        case 11:
+          env12.noteOff();
+          filterEnv12.noteOff();
+          lfoAenv12.noteOff();
+          env12on = false;
+          break;
+      }
+    }
   }
 }
 
@@ -899,20 +962,82 @@ void commandBottomNoteUnison() {
   if (noteActive) {
     commandNoteUnison(bottomNote);
   } else {  // All notes are off, turn off gate
-    env1.noteOff();
-    filterEnv1.noteOff();
-    lfoAenv1.noteOff();
-    env1on = false;
-
-    env2.noteOff();
-    filterEnv2.noteOff();
-    lfoAenv2.noteOff();
-    env2on = false;
-
-    env3.noteOff();
-    filterEnv3.noteOff();
-    lfoAenv3.noteOff();
-    env3on = false;
+    for (int i = 0; i < uniNotes; i++) {
+      switch (i) {
+        case 0:
+          env1.noteOff();
+          filterEnv1.noteOff();
+          lfoAenv1.noteOff();
+          env1on = false;
+          break;
+        case 1:
+          env2.noteOff();
+          filterEnv2.noteOff();
+          lfoAenv2.noteOff();
+          env2on = false;
+          break;
+        case 2:
+          env3.noteOff();
+          filterEnv3.noteOff();
+          lfoAenv3.noteOff();
+          env3on = false;
+          break;
+        case 3:
+          env4.noteOff();
+          filterEnv4.noteOff();
+          lfoAenv4.noteOff();
+          env4on = false;
+          break;
+        case 4:
+          env5.noteOff();
+          filterEnv5.noteOff();
+          lfoAenv5.noteOff();
+          env5on = false;
+          break;
+        case 5:
+          env6.noteOff();
+          filterEnv6.noteOff();
+          lfoAenv6.noteOff();
+          env6on = false;
+          break;
+        case 6:
+          env7.noteOff();
+          filterEnv7.noteOff();
+          lfoAenv7.noteOff();
+          env7on = false;
+          break;
+        case 7:
+          env8.noteOff();
+          filterEnv8.noteOff();
+          lfoAenv8.noteOff();
+          env8on = false;
+          break;
+        case 8:
+          env9.noteOff();
+          filterEnv9.noteOff();
+          lfoAenv9.noteOff();
+          env9on = false;
+          break;
+        case 9:
+          env10.noteOff();
+          filterEnv10.noteOff();
+          lfoAenv10.noteOff();
+          env10on = false;
+          break;
+        case 10:
+          env11.noteOff();
+          filterEnv11.noteOff();
+          lfoAenv11.noteOff();
+          env11on = false;
+          break;
+        case 11:
+          env12.noteOff();
+          filterEnv12.noteOff();
+          lfoAenv12.noteOff();
+          env12on = false;
+          break;
+      }
+    }
   }
 }
 
@@ -927,6 +1052,238 @@ void commandLastNoteUnison() {
       return;
     }
   }
+  for (int i = 0; i < uniNotes; i++) {
+    switch (i) {
+      case 0:
+        env1.noteOff();
+        filterEnv1.noteOff();
+        lfoAenv1.noteOff();
+        env1on = false;
+        break;
+      case 1:
+        env2.noteOff();
+        filterEnv2.noteOff();
+        lfoAenv2.noteOff();
+        env2on = false;
+        break;
+      case 2:
+        env3.noteOff();
+        filterEnv3.noteOff();
+        lfoAenv3.noteOff();
+        env3on = false;
+        break;
+      case 3:
+        env4.noteOff();
+        filterEnv4.noteOff();
+        lfoAenv4.noteOff();
+        env4on = false;
+        break;
+      case 4:
+        env5.noteOff();
+        filterEnv5.noteOff();
+        lfoAenv5.noteOff();
+        env5on = false;
+        break;
+      case 5:
+        env6.noteOff();
+        filterEnv6.noteOff();
+        lfoAenv6.noteOff();
+        env6on = false;
+        break;
+      case 6:
+        env7.noteOff();
+        filterEnv7.noteOff();
+        lfoAenv7.noteOff();
+        env7on = false;
+        break;
+      case 7:
+        env8.noteOff();
+        filterEnv8.noteOff();
+        lfoAenv8.noteOff();
+        env8on = false;
+        break;
+      case 8:
+        env9.noteOff();
+        filterEnv9.noteOff();
+        lfoAenv9.noteOff();
+        env9on = false;
+        break;
+      case 9:
+        env10.noteOff();
+        filterEnv10.noteOff();
+        lfoAenv10.noteOff();
+        env10on = false;
+        break;
+      case 10:
+        env11.noteOff();
+        filterEnv11.noteOff();
+        lfoAenv11.noteOff();
+        env11on = false;
+        break;
+      case 11:
+        env12.noteOff();
+        filterEnv12.noteOff();
+        lfoAenv12.noteOff();
+        env12on = false;
+        break;
+    }
+  }
+}
+
+void commandNoteUnison(int note) {
+  // Limit to available voices
+  if (uniNotes > NO_OF_VOICES) uniNotes = NO_OF_VOICES;
+  if (uniNotes < 1) uniNotes = 1;
+
+  // Set note frequency base
+  for (int i = 0; i < uniNotes; i++) {
+    voices[i].note = note;  // Optional bookkeeping
+  }
+
+  // Calculate detune spread
+  float baseOffset = detune - 1.000;  // e.g. 0.02 for ±2%
+  float spread = baseOffset;          // could later be scaled with uniNotes
+
+  // Center index (for symmetry)
+  int center = uniNotes / 2;  // integer division works for both even/odd
+
+  // Reset all detunes first
+  for (int i = 0; i < NO_OF_VOICES; i++) {
+    voiceDetune[i] = 1.000;
+  }
+
+  // Assign detunes to active voices
+  for (int i = 0; i < uniNotes; i++) {
+    int distance = i - center;
+    voiceDetune[i] = 1.000 + (distance * spread);
+  }
+
+  // Trigger only the voices used by unison
+  for (int i = 0; i < uniNotes; i++) {
+    switch (i) {
+      case 0:
+        note1freq = note;
+        env1.noteOn();
+        filterEnv1.noteOn();
+        lfoAenv1.noteOn();
+        env1on = true;
+        break;
+      case 1:
+        note2freq = note;
+        env2.noteOn();
+        filterEnv2.noteOn();
+        lfoAenv2.noteOn();
+        env2on = true;
+        break;
+      case 2:
+        note3freq = note;
+        env3.noteOn();
+        filterEnv3.noteOn();
+        lfoAenv3.noteOn();
+        env3on = true;
+        break;
+      case 3:
+        note4freq = note;
+        env4.noteOn();
+        filterEnv4.noteOn();
+        lfoAenv4.noteOn();
+        env4on = true;
+        break;
+      case 4:
+        note5freq = note;
+        env5.noteOn();
+        filterEnv5.noteOn();
+        lfoAenv5.noteOn();
+        env5on = true;
+        break;
+      case 5:
+        note6freq = note;
+        env6.noteOn();
+        filterEnv6.noteOn();
+        lfoAenv6.noteOn();
+        env6on = true;
+        break;
+      case 6:
+        note7freq = note;
+        env7.noteOn();
+        filterEnv7.noteOn();
+        lfoAenv7.noteOn();
+        env7on = true;
+        break;
+      case 7:
+        note8freq = note;
+        env8.noteOn();
+        filterEnv8.noteOn();
+        lfoAenv8.noteOn();
+        env8on = true;
+        break;
+      case 8:
+        note9freq = note;
+        env9.noteOn();
+        filterEnv9.noteOn();
+        lfoAenv9.noteOn();
+        env9on = true;
+        break;
+      case 9:
+        note10freq = note;
+        env10.noteOn();
+        filterEnv10.noteOn();
+        lfoAenv10.noteOn();
+        env10on = true;
+        break;
+      case 10:
+        note11freq = note;
+        env11.noteOn();
+        filterEnv11.noteOn();
+        lfoAenv11.noteOn();
+        env11on = true;
+        break;
+      case 11:
+        note12freq = note;
+        env12.noteOn();
+        filterEnv12.noteOn();
+        lfoAenv12.noteOn();
+        env12on = true;
+        break;
+    }
+  }
+}
+
+// void commandNoteUnison(int note) {
+//   note1freq = note;
+
+//   float offset = detune - 1.000;  // difference from unity (e.g. 0.02)
+
+//   voiceDetune[0] = 1.000;   // Base pitch
+//   voiceDetune[1] = 1.000 + offset;  // Detuned voice
+//   voiceDetune[2] = 1.000 - offset;  // Detuned voice
+//   voiceDetune[3] = 1.000 + (2.0 * offset);  // Detuned voice
+//   voiceDetune[4] = 1.000 - (2.0 * offset);  // Detuned voice
+//   voiceDetune[5] = 1.000 + (3.0 * offset);  // Detuned voice
+//   voiceDetune[6] = 1.000 - (3.0 * offset);  // Detuned voice
+//   voiceDetune[7] = 1.000 + (4.0 * offset);  // Detuned voice
+//   voiceDetune[8] = 1.000 - (4.0 * offset);  // Detuned voice
+//   voiceDetune[9] = 1.000 + (5.0 * offset);  // Detuned voice
+//   voiceDetune[10] = 1.000 - (5.0 * offset);  // Detuned voice
+//   voiceDetune[11] = 1.000 + (6.0 * offset);  // Detuned voice
+
+//   env1.noteOn();
+//   filterEnv1.noteOn();
+//   lfoAenv1.noteOn();
+//   env1on = true;
+
+//   env2.noteOn();
+//   filterEnv2.noteOn();
+//   lfoAenv2.noteOn();
+//   env2on = true;
+
+//   env3.noteOn();
+//   filterEnv3.noteOn();
+//   lfoAenv3.noteOn();
+//   env3on = true;
+// }
+
+void allNotesOff() {
   env1.noteOff();
   filterEnv1.noteOff();
   lfoAenv1.noteOff();
@@ -941,36 +1298,51 @@ void commandLastNoteUnison() {
   filterEnv3.noteOff();
   lfoAenv3.noteOff();
   env3on = false;
-}
 
-void commandNoteUnison(int note) {
-  note1freq = note;
-  note2freq = note;
-  note3freq = note;
+  env4.noteOff();
+  filterEnv4.noteOff();
+  lfoAenv4.noteOff();
+  env4on = false;
 
-  float offset = detune - 1.000;  // difference from unity (e.g. 0.02)
+  env5.noteOff();
+  filterEnv5.noteOff();
+  lfoAenv5.noteOff();
+  env5on = false;
 
-  voiceDetune[0] = 1.000;   // Base pitch
-  voiceDetune[1] = 1.000 + offset;  // Detuned voice
-  voiceDetune[2] = 1.000 + (2.0 * offset);  // Detuned voice
+  env6.noteOff();
+  filterEnv6.noteOff();
+  lfoAenv6.noteOff();
+  env6on = false;
 
-  env1.noteOn();
-  filterEnv1.noteOn();
-  lfoAenv1.noteOn();
-  env1on = true;
+  env7.noteOff();
+  filterEnv7.noteOff();
+  lfoAenv7.noteOff();
+  env7on = false;
 
-  env2.noteOn();
-  filterEnv2.noteOn();
-  lfoAenv2.noteOn();
-  env2on = true;
+  env8.noteOff();
+  filterEnv8.noteOff();
+  lfoAenv8.noteOff();
+  env8on = false;
 
-  env3.noteOn();
-  filterEnv3.noteOn();
-  lfoAenv3.noteOn();
-  env3on = true;
-}
+  env9.noteOff();
+  filterEnv9.noteOff();
+  lfoAenv9.noteOff();
+  env9on = false;
 
-void allNotesOff() {
+  env10.noteOff();
+  filterEnv10.noteOff();
+  lfoAenv10.noteOff();
+  env10on = false;
+
+  env11.noteOff();
+  filterEnv11.noteOff();
+  lfoAenv11.noteOff();
+  env11on = false;
+
+  env12.noteOff();
+  filterEnv12.noteOff();
+  lfoAenv12.noteOff();
+  env12on = false;
 }
 
 FLASHMEM void updateVolume() {
@@ -1095,6 +1467,9 @@ FLASHMEM void updatemonoPoly() {
 
   if (MONO_POLY_1 < 511 && MONO_POLY_2 < 511) {
     showCurrentParameterPage("KeyMode", "Polyphonic");
+    for (int i = 0; i < NO_OF_VOICES; i++) {
+      voiceDetune[i] = 1.000;
+    }
   }
   if (MONO_POLY_1 > 511 && MONO_POLY_2 < 511) {
     showCurrentParameterPage("KeyMode", "Unison");
@@ -1484,18 +1859,9 @@ FLASHMEM void updateTuneC() {
 FLASHMEM void updateCrossMod() {
   //crossMod = (float)mux14 / 512;
   //cross mod
-  modMix1.gain(0, crossMod);
-  modMix2.gain(0, crossMod);
-  modMix3.gain(0, crossMod);
-  modMix4.gain(0, crossMod);
-  modMix5.gain(0, crossMod);
-  modMix6.gain(0, crossMod);
-  modMix7.gain(0, crossMod);
-  modMix8.gain(0, crossMod);
-  modMix9.gain(0, crossMod);
-  modMix10.gain(0, crossMod);
-  modMix11.gain(0, crossMod);
-  modMix12.gain(0, crossMod);
+  for (int i = 0; i < 12; i++) {
+    modMixers[i]->gain(0, crossMod);
+  }
   if (!announce) {
     showCurrentParameterPage("Cross Mod", String(mux14 >> 3));
   }
@@ -1506,18 +1872,10 @@ FLASHMEM void updateCrossMod() {
 FLASHMEM void updateVolA() {
   //vcoAvol = (float)mux10 / 1023;
   //vco Mixer
-  voiceMix1.gain(0, vcoAvol * mainVol);
-  voiceMix2.gain(0, vcoAvol * mainVol);
-  voiceMix3.gain(0, vcoAvol * mainVol);
-  voiceMix4.gain(0, vcoAvol * mainVol);
-  voiceMix5.gain(0, vcoAvol * mainVol);
-  voiceMix6.gain(0, vcoAvol * mainVol);
-  voiceMix7.gain(0, vcoAvol * mainVol);
-  voiceMix8.gain(0, vcoAvol * mainVol);
-  voiceMix9.gain(0, vcoAvol * mainVol);
-  voiceMix10.gain(0, vcoAvol * mainVol);
-  voiceMix11.gain(0, vcoAvol * mainVol);
-  voiceMix12.gain(0, vcoAvol * mainVol);
+  float gainValue = vcoAvol * mainVol;
+  for (int i = 0; i < 12; i++) {
+    voiceMixers[i]->gain(0, gainValue);
+  }
   if (!announce) {
     showCurrentParameterPage("OscA Volume", String(mux10 >> 3));
   }
@@ -1527,18 +1885,10 @@ FLASHMEM void updateVolA() {
 FLASHMEM void updateVolB() {
   //vcoBvol = (float)mux9 / 1023;
   //vco Mixer
-  voiceMix1.gain(1, vcoBvol * mainVol);
-  voiceMix2.gain(1, vcoBvol * mainVol);
-  voiceMix3.gain(1, vcoBvol * mainVol);
-  voiceMix4.gain(1, vcoBvol * mainVol);
-  voiceMix5.gain(1, vcoBvol * mainVol);
-  voiceMix6.gain(1, vcoBvol * mainVol);
-  voiceMix7.gain(1, vcoBvol * mainVol);
-  voiceMix8.gain(1, vcoBvol * mainVol);
-  voiceMix9.gain(1, vcoBvol * mainVol);
-  voiceMix10.gain(1, vcoBvol * mainVol);
-  voiceMix11.gain(1, vcoBvol * mainVol);
-  voiceMix12.gain(1, vcoBvol * mainVol);
+  float gainValue = vcoBvol * mainVol;
+  for (int i = 0; i < 12; i++) {
+    voiceMixers[i]->gain(1, gainValue);
+  }
   if (!announce) {
     showCurrentParameterPage("OscB Volume", String(mux9 >> 3));
   }
@@ -1548,18 +1898,10 @@ FLASHMEM void updateVolB() {
 FLASHMEM void updateVolC() {
   //vcoCvol = (float)mux8 / 1023;
   //vco Mixer
-  voiceMix1.gain(2, vcoCvol * mainVol);
-  voiceMix2.gain(2, vcoCvol * mainVol);
-  voiceMix3.gain(2, vcoCvol * mainVol);
-  voiceMix4.gain(2, vcoCvol * mainVol);
-  voiceMix5.gain(2, vcoCvol * mainVol);
-  voiceMix6.gain(2, vcoCvol * mainVol);
-  voiceMix7.gain(2, vcoCvol * mainVol);
-  voiceMix8.gain(2, vcoCvol * mainVol);
-  voiceMix9.gain(2, vcoCvol * mainVol);
-  voiceMix10.gain(2, vcoCvol * mainVol);
-  voiceMix11.gain(2, vcoCvol * mainVol);
-  voiceMix12.gain(2, vcoCvol * mainVol);
+  float gainValue = vcoCvol * mainVol;
+  for (int i = 0; i < 12; i++) {
+    voiceMixers[i]->gain(2, gainValue);
+  }
   if (!announce) {
     showCurrentParameterPage("OscC Volume", String(mux8 >> 3));
   }
@@ -1569,18 +1911,10 @@ FLASHMEM void updateVolC() {
 FLASHMEM void updateSubVol() {
   //Subvol = (float)mux17 / 1023;
   //vco Mixer
-  voiceMix1.gain(3, Subvol * mainVol);
-  voiceMix2.gain(3, Subvol * mainVol);
-  voiceMix3.gain(3, Subvol * mainVol);
-  voiceMix4.gain(3, Subvol * mainVol);
-  voiceMix5.gain(3, Subvol * mainVol);
-  voiceMix6.gain(3, Subvol * mainVol);
-  voiceMix7.gain(3, Subvol * mainVol);
-  voiceMix8.gain(3, Subvol * mainVol);
-  voiceMix9.gain(3, Subvol * mainVol);
-  voiceMix10.gain(3, Subvol * mainVol);
-  voiceMix11.gain(3, Subvol * mainVol);
-  voiceMix12.gain(3, Subvol * mainVol);
+  float gainValue = Subvol * mainVol;
+  for (int i = 0; i < 12; i++) {
+    voiceMixers[i]->gain(3, gainValue);
+  }
   if (!announce) {
     showCurrentParameterPage("Sub Volume", String(mux17 >> 3));
   }
@@ -1591,18 +1925,9 @@ FLASHMEM void updateSubVol() {
 FLASHMEM void updateCutoff() {
   //cut = 15000 * (float)mux25 / 1023 + 15;  /////cut
   //filter
-  filter1.frequency(cut);
-  filter2.frequency(cut);
-  filter3.frequency(cut);
-  filter4.frequency(cut);
-  filter5.frequency(cut);
-  filter6.frequency(cut);
-  filter7.frequency(cut);
-  filter8.frequency(cut);
-  filter9.frequency(cut);
-  filter10.frequency(cut);
-  filter11.frequency(cut);
-  filter12.frequency(cut);
+  for (int i = 0; i < 12; i++) {
+    filters[i]->frequency(cut);
+  }
   if (!announce) {
     showCurrentParameterPage("Filter Cutoff", String(cutoffstr) + " Hz");
   }
@@ -1613,18 +1938,9 @@ FLASHMEM void updateRes() {
   //res = 4.5 * (float)mux24 / 1023 + 1.1;
   //filter
 
-  filter1.resonance(res);
-  filter2.resonance(res);
-  filter3.resonance(res);
-  filter4.resonance(res);
-  filter5.resonance(res);
-  filter6.resonance(res);
-  filter7.resonance(res);
-  filter7.resonance(res);
-  filter9.resonance(res);
-  filter10.resonance(res);
-  filter11.resonance(res);
-  filter12.resonance(res);
+  for (int i = 0; i < 12; i++) {
+    filters[i]->resonance(res);
+  }
   if (!announce) {
     showCurrentParameterPage("Filter Res", String(mux24 >> 3));
   }
@@ -1635,18 +1951,9 @@ FLASHMEM void updateRes() {
 
 FLASHMEM void updateFilterAttack() {
   //filtAtt = (3000 * (float)mux0 / 1023);
-  filterEnv1.attack(filtAtt);
-  filterEnv2.attack(filtAtt);
-  filterEnv3.attack(filtAtt);
-  filterEnv4.attack(filtAtt);
-  filterEnv5.attack(filtAtt);
-  filterEnv6.attack(filtAtt);
-  filterEnv7.attack(filtAtt);
-  filterEnv8.attack(filtAtt);
-  filterEnv9.attack(filtAtt);
-  filterEnv10.attack(filtAtt);
-  filterEnv11.attack(filtAtt);
-  filterEnv12.attack(filtAtt);
+  for (int i = 0; i < 12; i++) {
+    filterEnvs[i]->attack(filtAtt);
+  }
   if (!announce) {
     showCurrentParameterPage("Filter Attack", String(filterAttackstr) + " mS");
   }
@@ -1655,30 +1962,10 @@ FLASHMEM void updateFilterAttack() {
 
 FLASHMEM void updateFilterDecay() {
   //filtDec = (3000 * (float)mux1 / 1023);
-  filterEnv1.decay(filtDec);
-  filterEnv1.release(filtDec);
-  filterEnv2.decay(filtDec);
-  filterEnv2.release(filtDec);
-  filterEnv3.decay(filtDec);
-  filterEnv3.release(filtDec);
-  filterEnv4.decay(filtDec);
-  filterEnv4.release(filtDec);
-  filterEnv5.decay(filtDec);
-  filterEnv5.release(filtDec);
-  filterEnv6.decay(filtDec);
-  filterEnv6.release(filtDec);
-  filterEnv7.decay(filtDec);
-  filterEnv7.release(filtDec);
-  filterEnv8.decay(filtDec);
-  filterEnv8.release(filtDec);
-  filterEnv9.decay(filtDec);
-  filterEnv9.release(filtDec);
-  filterEnv10.decay(filtDec);
-  filterEnv10.release(filtDec);
-  filterEnv11.decay(filtDec);
-  filterEnv11.release(filtDec);
-  filterEnv12.decay(filtDec);
-  filterEnv12.release(filtDec);
+  for (int i = 0; i < 12; i++) {
+    filterEnvs[i]->decay(filtDec);
+    filterEnvs[i]->release(filtDec);
+  }
   if (!announce) {
     showCurrentParameterPage("Filter Decay", String(filterDecaystr) + " mS");
   }
@@ -1687,18 +1974,9 @@ FLASHMEM void updateFilterDecay() {
 
 FLASHMEM void updateFilterAmount() {
   //filtAmt = (float)mux2 / 512 - 1;
-  dc1.amplitude(filtAmt);
-  dc2.amplitude(filtAmt);
-  dc3.amplitude(filtAmt);
-  dc4.amplitude(filtAmt);
-  dc5.amplitude(filtAmt);
-  dc6.amplitude(filtAmt);
-  dc7.amplitude(filtAmt);
-  dc8.amplitude(filtAmt);
-  dc9.amplitude(filtAmt);
-  dc10.amplitude(filtAmt);
-  dc11.amplitude(filtAmt);
-  dc12.amplitude(filtAmt);
+  for (int i = 0; i < 12; i++) {
+    dcArray[i]->amplitude(filtAmt);
+  }
   if (!announce) {
     showCurrentParameterPage("Filter Env", String(mux2 >> 3));
   }
@@ -1706,88 +1984,37 @@ FLASHMEM void updateFilterAmount() {
 }
 
 FLASHMEM void updateFilterMode() {
+  // Determine filter mode from FILTER_MODE value
   if (FILTER_MODE > 511) {
-    filterMode = 1;
-    //if (!announce) {
+    filterMode = 1;  // Low Pass
     showCurrentParameterPage("Filter Mode", "Low Pass");
-    //}
     midiCCOut(CCfiltermode, 127, 1);
-  } else if (FILTER_MODE < 511) {
-    filterMode = 0;
+  } else {
+    filterMode = 0;  // Band Pass
     if (!announce) {
       showCurrentParameterPage("Filter Mode", "Band Pass");
     }
     midiCCOut(CCfiltermode, 0, 1);
   }
-  //filter mode
-  if (filterMode == 1) {
-    filterMode1.gain(0, 1);
-    filterMode1.gain(1, 0);
-    filterMode2.gain(0, 1);
-    filterMode2.gain(1, 0);
-    filterMode3.gain(0, 1);
-    filterMode3.gain(1, 0);
-    filterMode4.gain(0, 1);
-    filterMode4.gain(1, 0);
-    filterMode5.gain(0, 1);
-    filterMode5.gain(1, 0);
-    filterMode6.gain(0, 1);
-    filterMode6.gain(1, 0);
-    filterMode7.gain(0, 1);
-    filterMode7.gain(1, 0);
-    filterMode8.gain(0, 1);
-    filterMode8.gain(1, 0);
-    filterMode9.gain(0, 1);
-    filterMode9.gain(1, 0);
-    filterMode10.gain(0, 1);
-    filterMode10.gain(1, 0);
-    filterMode11.gain(0, 1);
-    filterMode11.gain(1, 0);
-    filterMode12.gain(0, 1);
-    filterMode12.gain(1, 0);
-  } else if (filterMode == 0) {
-    filterMode1.gain(0, 0);
-    filterMode1.gain(1, 1);
-    filterMode2.gain(0, 0);
-    filterMode2.gain(1, 1);
-    filterMode3.gain(0, 0);
-    filterMode3.gain(1, 1);
-    filterMode4.gain(0, 0);
-    filterMode4.gain(1, 1);
-    filterMode5.gain(0, 0);
-    filterMode5.gain(1, 1);
-    filterMode6.gain(0, 0);
-    filterMode6.gain(1, 1);
-    filterMode7.gain(0, 0);
-    filterMode7.gain(1, 1);
-    filterMode8.gain(0, 0);
-    filterMode8.gain(1, 1);
-    filterMode9.gain(0, 0);
-    filterMode9.gain(1, 1);
-    filterMode10.gain(0, 0);
-    filterMode10.gain(1, 1);
-    filterMode11.gain(0, 0);
-    filterMode11.gain(1, 1);
-    filterMode12.gain(0, 0);
-    filterMode12.gain(1, 1);
+
+  // Apply the correct gain settings for each filterMode mixer
+  for (int i = 0; i < 12; i++) {
+    if (filterMode == 1) {  // Low Pass
+      filterModes[i]->gain(0, 1);
+      filterModes[i]->gain(1, 0);
+    } else {  // Band Pass
+      filterModes[i]->gain(0, 0);
+      filterModes[i]->gain(1, 1);
+    }
   }
 }
 
 FLASHMEM void updateAttack() {
   //envAtt = 3000 * (float)mux27 / 1023;
   //Main ENVELOPE
-  env1.attack(envAtt);
-  env2.attack(envAtt);
-  env3.attack(envAtt);
-  env4.attack(envAtt);
-  env5.attack(envAtt);
-  env6.attack(envAtt);
-  env7.attack(envAtt);
-  env8.attack(envAtt);
-  env9.attack(envAtt);
-  env10.attack(envAtt);
-  env11.attack(envAtt);
-  env12.attack(envAtt);
+  for (int i = 0; i < 12; i++) {
+    envs[i]->attack(envAtt);
+  }
   if (!announce) {
     showCurrentParameterPage("Amp Attack", String(ampAttackstr) + " mS");
   }
@@ -1797,30 +2024,10 @@ FLASHMEM void updateAttack() {
 FLASHMEM void updateDecay() {
   //envDec = 5000 * (float)mux26 / 1023;
   //envRel = 5000 * (float)mux26 / 1023;
-  env1.decay(envDec);
-  env2.decay(envDec);
-  env3.decay(envDec);
-  env4.decay(envDec);
-  env5.decay(envDec);
-  env6.decay(envDec);
-  env7.decay(envDec);
-  env8.decay(envDec);
-  env9.decay(envDec);
-  env10.decay(envDec);
-  env11.decay(envDec);
-  env12.decay(envDec);
-  env1.release(envRel);
-  env2.release(envRel);
-  env3.release(envRel);
-  env4.release(envRel);
-  env5.release(envRel);
-  env6.release(envRel);
-  env7.release(envRel);
-  env8.release(envRel);
-  env9.release(envRel);
-  env10.release(envRel);
-  env11.release(envRel);
-  env12.release(envRel);
+  for (int i = 0; i < 12; i++) {
+    envs[i]->decay(envDec);
+    envs[i]->release(envRel);
+  }
   if (!announce) {
     showCurrentParameterPage("Amp Decay", String(ampDecaystr) + " mS");
   }
@@ -1829,18 +2036,9 @@ FLASHMEM void updateDecay() {
 
 FLASHMEM void updateSustain() {
   //envSus = (float)mux22 / 100;
-  env1.sustain(envSus);
-  env2.sustain(envSus);
-  env3.sustain(envSus);
-  env4.sustain(envSus);
-  env5.sustain(envSus);
-  env6.sustain(envSus);
-  env7.sustain(envSus);
-  env8.sustain(envSus);
-  env9.sustain(envSus);
-  env10.sustain(envSus);
-  env11.sustain(envSus);
-  env12.sustain(envSus);
+  for (int i = 0; i < 12; i++) {
+    envs[i]->sustain(envSus);
+  }
   if (!announce) {
     showCurrentParameterPage("Amp Sustain", String(map(mux22, 0, 1023, 0, 100)));
   }
@@ -1873,30 +2071,10 @@ FLASHMEM void updateLFOFreq() {
 FLASHMEM void updateLFOAttack() {
   //lfoAdel = 2000 * (float)mux5 / 1024;
   //lfoAatt = 3000 * (float)mux5 / 1024;
-  lfoAenv1.delay(lfoAdel);
-  lfoAenv1.attack(lfoAatt);
-  lfoAenv2.delay(lfoAdel);
-  lfoAenv2.attack(lfoAatt);
-  lfoAenv3.delay(lfoAdel);
-  lfoAenv3.attack(lfoAatt);
-  lfoAenv4.delay(lfoAdel);
-  lfoAenv4.attack(lfoAatt);
-  lfoAenv5.delay(lfoAdel);
-  lfoAenv5.attack(lfoAatt);
-  lfoAenv6.delay(lfoAdel);
-  lfoAenv6.attack(lfoAatt);
-  lfoAenv7.delay(lfoAdel);
-  lfoAenv7.attack(lfoAatt);
-  lfoAenv8.delay(lfoAdel);
-  lfoAenv8.attack(lfoAatt);
-  lfoAenv9.delay(lfoAdel);
-  lfoAenv9.attack(lfoAatt);
-  lfoAenv10.delay(lfoAdel);
-  lfoAenv10.attack(lfoAatt);
-  lfoAenv11.delay(lfoAdel);
-  lfoAenv11.attack(lfoAatt);
-  lfoAenv12.delay(lfoAdel);
-  lfoAenv12.attack(lfoAatt);
+  for (int i = 0; i < 12; i++) {
+    lfoAEnvs[i]->delay(lfoAdel);
+    lfoAEnvs[i]->attack(lfoAatt);
+  }
   if (!announce) {
     showCurrentParameterPage("LFO Attack", String(lfoAttackstr) + " mS");
   }
@@ -1906,30 +2084,10 @@ FLASHMEM void updateLFOAttack() {
 FLASHMEM void updateLFODecay() {
   //lfoAdec = 4000 * (float)mux6 / 1024;
   //lfoArel = 4000 * (float)mux6 / 1024;
-  lfoAenv1.decay(lfoAdec);
-  lfoAenv1.release(lfoArel);
-  lfoAenv2.decay(lfoAdec);
-  lfoAenv2.release(lfoArel);
-  lfoAenv3.decay(lfoAdec);
-  lfoAenv3.release(lfoArel);
-  lfoAenv4.decay(lfoAdec);
-  lfoAenv4.release(lfoArel);
-  lfoAenv5.decay(lfoAdec);
-  lfoAenv5.release(lfoArel);
-  lfoAenv6.decay(lfoAdec);
-  lfoAenv6.release(lfoArel);
-  lfoAenv7.decay(lfoAdec);
-  lfoAenv7.release(lfoArel);
-  lfoAenv8.decay(lfoAdec);
-  lfoAenv8.release(lfoArel);
-  lfoAenv9.decay(lfoAdec);
-  lfoAenv9.release(lfoArel);
-  lfoAenv10.decay(lfoAdec);
-  lfoAenv10.release(lfoArel);
-  lfoAenv11.decay(lfoAdec);
-  lfoAenv11.release(lfoArel);
-  lfoAenv12.decay(lfoAdec);
-  lfoAenv12.release(lfoArel);
+  for (int i = 0; i < 12; i++) {
+    lfoAEnvs[i]->decay(lfoAdec);
+    lfoAEnvs[i]->release(lfoArel);
+  }
   if (!announce) {
     showCurrentParameterPage("LFO Decay", String(lfoDecaystr) + " mS");
   }
@@ -1938,18 +2096,9 @@ FLASHMEM void updateLFODecay() {
 
 FLASHMEM void updateLFOSustain() {
   //lfoAsus = (float)mux7 / 1024;
-  lfoAenv1.sustain(lfoAsus);
-  lfoAenv2.sustain(lfoAsus);
-  lfoAenv3.sustain(lfoAsus);
-  lfoAenv4.sustain(lfoAsus);
-  lfoAenv5.sustain(lfoAsus);
-  lfoAenv6.sustain(lfoAsus);
-  lfoAenv7.sustain(lfoAsus);
-  lfoAenv8.sustain(lfoAsus);
-  lfoAenv9.sustain(lfoAsus);
-  lfoAenv10.sustain(lfoAsus);
-  lfoAenv11.sustain(lfoAsus);
-  lfoAenv12.sustain(lfoAsus);
+  for (int i = 0; i < 12; i++) {
+    lfoAEnvs[i]->sustain(lfoAsus);
+  }
   if (!announce) {
     showCurrentParameterPage("LFO Sustain", String(map(mux7, 0, 1023, 0, 100)));
   }
@@ -1979,131 +2128,153 @@ FLASHMEM void updateLFODestination() {
   //LFO A DESTINATION
   if (lfoAdest == 0) {  //lfo - pitch
 
-    patchCord44.connect();       //lfoAenv1, 0, modMix1
-    patchCord45.connect();       //lfoAenv1, 0, vcoB1
-    patchCord46.connect();       //lfoAenv1, 0, vcoC1
-    patchCord47.connect();       //lfoAenv1, 0, sub1
-    patchCord48.disconnect();    //lfoAenv1, 0, filterMix1
-    patchCord19.connect();       //lfoAenv2, 0, modMix2
-    patchCord20.connect();       //lfoAenv2, 0, vcoB2
-    patchCord21.connect();       //lfoAenv2, 0, vcoC2
-    patchCord22.connect();       //lfoAenv2, 0, sub2
-    patchCord23.disconnect();    //lfoAenv2, 0, filterMix2
-    patchCord24.connect();       //lfoAenv3, 0, modMix3
-    patchCord25.connect();       //lfoAenv3, 0, vcoB3
-    patchCord26.connect();       //lfoAenv3, 0, vcoC3
-    patchCord27.connect();       //lfoAenv3, 0, sub3
-    patchCord28.disconnect();    //lfoAenv3, 0, filterMix3
-    patchCord29.connect();       //lfoAenv4, 0, modMix4
-    patchCord30.connect();       //lfoAenv4, 0, vcoB4
-    patchCord31.connect();       //lfoAenv4, 0, vcoC4
-    patchCord32.connect();       //lfoAenv4, 0, sub4
-    patchCord33.disconnect();    //lfoAenv4, 0, filterMix4
-    patchCord34.connect();       //lfoAenv5, 0, modMix5
-    patchCord35.connect();       //lfoAenv5, 0, vcoB5
-    patchCord36.connect();       //lfoAenv5, 0, vcoC5
-    patchCord37.connect();       //lfoAenv5, 0, sub5
-    patchCord38.disconnect();    //lfoAenv5, 0, filterMix5
-    patchCord39.connect();       //lfoAenv6, 0, modMix6
-    patchCord40.connect();       //lfoAenv6, 0, vcoB6
-    patchCord41.connect();       //lfoAenv6, 0, vcoC6
-    patchCord42.connect();       //lfoAenv6, 0, sub6
-    patchCord43.disconnect();    //lfoAenv6, 0, filterMix6
-    patchCord1044.connect();     //lfoAenv7, 0, modMix7
-    patchCord1045.connect();     //lfoAenv7, 0, vcoB7
-    patchCord1046.connect();     //lfoAenv7, 0, vcoC7
-    patchCord1047.connect();     //lfoAenv7, 0, sub7
-    patchCord1048.disconnect();  //lfoAenv7, 0, filterMix7
-    patchCord1019.connect();     //lfoAenv8, 0, modMix8
-    patchCord1020.connect();     //lfoAenv8, 0, vcoB8
-    patchCord1021.connect();     //lfoAenv8, 0, vcoC8
-    patchCord1022.connect();     //lfoAenv8, 0, sub8
-    patchCord1023.disconnect();  //lfoAenv8, 0, filterMix8
-    patchCord1024.connect();     //lfoAenv9, 0, modMix9
-    patchCord1025.connect();     //lfoAenv9, 0, vcoB9
-    patchCord1026.connect();     //lfoAenv9, 0, vcoC9
-    patchCord1027.connect();     //lfoAenv9, 0, sub9
-    patchCord1028.disconnect();  //lfoAenv9, 0, filterMix9
-    patchCord1029.connect();     //lfoAenv10, 0, modMix10
-    patchCord1030.connect();     //lfoAenv10, 0, vcoB10
-    patchCord1031.connect();     //lfoAenv10, 0, vcoC10
-    patchCord1032.connect();     //lfoAenv10, 0, sub10
-    patchCord1033.disconnect();  //lfoAenv10, 0, filterMix10
-    patchCord1034.connect();     //lfoAenv11, 0, modMix11
-    patchCord1035.connect();     //lfoAenv11, 0, vcoB11
-    patchCord1036.connect();     //lfoAenv11, 0, vcoC11
-    patchCord1037.connect();     //lfoAenv11, 0, sub11
-    patchCord1038.disconnect();  //lfoAenv11, 0, filterMix11
-    patchCord1039.connect();     //lfoAenv12, 0, modMix12
-    patchCord1040.connect();     //lfoAenv12, 0, vcoB12
-    patchCord1041.connect();     //lfoAenv12, 0, vcoC12
-    patchCord1042.connect();     //lfoAenv12, 0, sub12
-    patchCord1043.disconnect();  //lfoAenv12, 0, filterMix12
+    patchCord44.connect();     //lfoAenv1, 0, modMix1
+    patchCord45.connect();     //lfoAenv1, 0, vcoB1
+    patchCord46.connect();     //lfoAenv1, 0, vcoC1
+    patchCord47.connect();     //lfoAenv1, 0, sub1
+    patchCord48.disconnect();  //lfoAenv1, 0, filterMix1
+
+    patchCord19.connect();     //lfoAenv2, 0, modMix2
+    patchCord20.connect();     //lfoAenv2, 0, vcoB2
+    patchCord21.connect();     //lfoAenv2, 0, vcoC2
+    patchCord22.connect();     //lfoAenv2, 0, sub2
+    patchCord23.disconnect();  //lfoAenv2, 0, filterMix2
+
+    patchCord24.connect();     //lfoAenv3, 0, modMix3
+    patchCord25.connect();     //lfoAenv3, 0, vcoB3
+    patchCord26.connect();     //lfoAenv3, 0, vcoC3
+    patchCord27.connect();     //lfoAenv3, 0, sub3
+    patchCord28.disconnect();  //lfoAenv3, 0, filterMix3
+
+    patchCord29.connect();     //lfoAenv4, 0, modMix4
+    patchCord30.connect();     //lfoAenv4, 0, vcoB4
+    patchCord31.connect();     //lfoAenv4, 0, vcoC4
+    patchCord32.connect();     //lfoAenv4, 0, sub4
+    patchCord33.disconnect();  //lfoAenv4, 0, filterMix4
+
+    patchCord34.connect();     //lfoAenv5, 0, modMix5
+    patchCord35.connect();     //lfoAenv5, 0, vcoB5
+    patchCord36.connect();     //lfoAenv5, 0, vcoC5
+    patchCord37.connect();     //lfoAenv5, 0, sub5
+    patchCord38.disconnect();  //lfoAenv5, 0, filterMix5
+
+    patchCord39.connect();     //lfoAenv6, 0, modMix6
+    patchCord40.connect();     //lfoAenv6, 0, vcoB6
+    patchCord41.connect();     //lfoAenv6, 0, vcoC6
+    patchCord42.connect();     //lfoAenv6, 0, sub6
+    patchCord43.disconnect();  //lfoAenv6, 0, filterMix6
+
+    patchCord1019.connect();     //lfoAenv7, 0, modMix7
+    patchCord1020.connect();     //lfoAenv7, 0, vcoB7
+    patchCord1021.connect();     //lfoAenv7, 0, vcoC7
+    patchCord1022.connect();     //lfoAenv7, 0, sub7
+    patchCord1023.disconnect();  //lfoAenv7, 0, filterMix7
+
+    patchCord1024.connect();     //lfoAenv8, 0, modMix8
+    patchCord1025.connect();     //lfoAenv8, 0, vcoB8
+    patchCord1025.connect();     //lfoAenv8, 0, vcoC8
+    patchCord1027.connect();     //lfoAenv8, 0, sub8
+    patchCord1028.disconnect();  //lfoAenv8, 0, filterMix8
+
+    patchCord1029.connect();     //lfoAenv9, 0, modMix9
+    patchCord1030.connect();     //lfoAenv9, 0, vcoB9
+    patchCord1031.connect();     //lfoAenv9, 0, vcoC9
+    patchCord1032.connect();     //lfoAenv9, 0, sub9
+    patchCord1033.disconnect();  //lfoAenv9, 0, filterMix9
+
+    patchCord1034.connect();     //lfoAenv10, 0, modMix10
+    patchCord1035.connect();     //lfoAenv10, 0, vcoB10
+    patchCord1036.connect();     //lfoAenv10, 0, vcoC10
+    patchCord1037.connect();     //lfoAenv10, 0, sub10
+    patchCord1038.disconnect();  //lfoAenv10, 0, filterMix10
+
+    patchCord1039.connect();     //lfoAenv11, 0, modMix11
+    patchCord1040.connect();     //lfoAenv11, 0, vcoB11
+    patchCord1041.connect();     //lfoAenv11, 0, vcoC11
+    patchCord1042.connect();     //lfoAenv11, 0, sub11
+    patchCord1043.disconnect();  //lfoAenv11, 0, filterMix11
+
+    patchCord1044.connect();     //lfoAenv12, 0, modMix12
+    patchCord1045.connect();     //lfoAenv12, 0, vcoB12
+    patchCord1046.connect();     //lfoAenv12, 0, vcoC12
+    patchCord1047.connect();     //lfoAenv12, 0, sub12
+    patchCord1048.disconnect();  //lfoAenv12, 0, filterMix12
 
     patchCord49.disconnect();  //lfoAread.
   }
   if (lfoAdest == 1) {  //lfo - filter
 
-    patchCord44.disconnect();    //lfoAenv1, 0, modMix1
-    patchCord45.disconnect();    //lfoAenv1, 0, vcoB1
-    patchCord46.disconnect();    //lfoAenv1, 0, vcoC1
-    patchCord47.disconnect();    //lfoAenv1, 0, sub1
-    patchCord48.connect();       //lfoAenv1, 0, filterMix1
-    patchCord19.disconnect();    //lfoAenv2, 0, modMix2
-    patchCord20.disconnect();    //lfoAenv2, 0, vcoB2
-    patchCord21.disconnect();    //lfoAenv2, 0, vcoC2
-    patchCord22.disconnect();    //lfoAenv2, 0, sub2
-    patchCord23.connect();       //lfoAenv2, 0, filterMix2
-    patchCord24.disconnect();    //lfoAenv3, 0, modMix3
-    patchCord25.disconnect();    //lfoAenv3, 0, vcoB3
-    patchCord26.disconnect();    //lfoAenv3, 0, vcoC3
-    patchCord27.disconnect();    //lfoAenv3, 0, sub3
-    patchCord28.connect();       //lfoAenv3, 0, filterMix3
-    patchCord29.disconnect();    //lfoAenv4, 0, modMix4
-    patchCord30.disconnect();    //lfoAenv4, 0, vcoB4
-    patchCord31.disconnect();    //lfoAenv4, 0, vcoC4
-    patchCord32.disconnect();    //lfoAenv4, 0, sub4
-    patchCord33.connect();       //lfoAenv4, 0, filterMix4
-    patchCord34.disconnect();    //lfoAenv5, 0, modMix5
-    patchCord35.disconnect();    //lfoAenv5, 0, vcoB5
-    patchCord36.disconnect();    //lfoAenv5, 0, vcoC5
-    patchCord37.disconnect();    //lfoAenv5, 0, sub5
-    patchCord38.connect();       //lfoAenv5, 0, filterMix5
-    patchCord39.disconnect();    //lfoAenv6, 0, modMix6
-    patchCord40.disconnect();    //lfoAenv6, 0, vcoB6
-    patchCord41.disconnect();    //lfoAenv6, 0, vcoC6
-    patchCord42.disconnect();    //lfoAenv6, 0, sub6
-    patchCord43.connect();       //lfoAenv6, 0, filterMix6
-    patchCord1044.disconnect();  //lfoAenv7, 0, modMix7
-    patchCord1045.disconnect();  //lfoAenv7, 0, vcoB7
-    patchCord1046.disconnect();  //lfoAenv7, 0, vcoC7
-    patchCord1047.disconnect();  //lfoAenv7, 0, sub7
-    patchCord1048.connect();     //lfoAenv7, 0, filterMix7
-    patchCord1019.disconnect();  //lfoAenv8, 0, modMix8
-    patchCord1020.disconnect();  //lfoAenv8, 0, vcoB8
-    patchCord1021.disconnect();  //lfoAenv8, 0, vcoC8
-    patchCord1022.disconnect();  //lfoAenv8, 0, sub8
-    patchCord1023.connect();     //lfoAenv8, 0, filterMix8
-    patchCord1024.disconnect();  //lfoAenv9, 0, modMix9
-    patchCord1025.disconnect();  //lfoAenv9, 0, vcoB9
-    patchCord1026.disconnect();  //lfoAenv9, 0, vcoC9
-    patchCord1027.disconnect();  //lfoAenv9, 0, sub9
-    patchCord1028.connect();     //lfoAenv9, 0, filterMix9
-    patchCord1029.disconnect();  //lfoAenv10, 0, modMix10
-    patchCord1030.disconnect();  //lfoAenv10, 0, vcoB10
-    patchCord1031.disconnect();  //lfoAenv10, 0, vcoC10
-    patchCord1032.disconnect();  //lfoAenv10, 0, sub10
-    patchCord1033.connect();     //lfoAenv10, 0, filterMix10
-    patchCord1034.disconnect();  //lfoAenv11, 0, modMix11
-    patchCord1035.disconnect();  //lfoAenv11, 0, vcoB11
-    patchCord1036.disconnect();  //lfoAenv11, 0, vcoC11
-    patchCord1037.disconnect();  //lfoAenv11, 0, sub11
-    patchCord1038.connect();     //lfoAenv11, 0, filterMix11
-    patchCord1039.disconnect();  //lfoAenv12, 0, modMix12
-    patchCord1040.disconnect();  //lfoAenv12, 0, vcoB12
-    patchCord1041.disconnect();  //lfoAenv12, 0, vcoC12
-    patchCord1042.disconnect();  //lfoAenv12, 0, sub12
-    patchCord1043.connect();     //lfoAenv12, 0, filterMix12
+    patchCord44.disconnect();  //lfoAenv1, 0, modMix1
+    patchCord45.disconnect();  //lfoAenv1, 0, vcoB1
+    patchCord46.disconnect();  //lfoAenv1, 0, vcoC1
+    patchCord47.disconnect();  //lfoAenv1, 0, sub1
+    patchCord48.connect();     //lfoAenv1, 0, filterMix1
+
+    patchCord19.disconnect();  //lfoAenv2, 0, modMix2
+    patchCord20.disconnect();  //lfoAenv2, 0, vcoB2
+    patchCord21.disconnect();  //lfoAenv2, 0, vcoC2
+    patchCord22.disconnect();  //lfoAenv2, 0, sub2
+    patchCord23.connect();     //lfoAenv2, 0, filterMix2
+
+    patchCord24.disconnect();  //lfoAenv3, 0, modMix3
+    patchCord25.disconnect();  //lfoAenv3, 0, vcoB3
+    patchCord26.disconnect();  //lfoAenv3, 0, vcoC3
+    patchCord27.disconnect();  //lfoAenv3, 0, sub3
+    patchCord28.connect();     //lfoAenv3, 0, filterMix3
+
+    patchCord29.disconnect();  //lfoAenv4, 0, modMix4
+    patchCord30.disconnect();  //lfoAenv4, 0, vcoB4
+    patchCord31.disconnect();  //lfoAenv4, 0, vcoC4
+    patchCord32.disconnect();  //lfoAenv4, 0, sub4
+    patchCord33.connect();     //lfoAenv4, 0, filterMix4
+
+    patchCord34.disconnect();  //lfoAenv5, 0, modMix5
+    patchCord35.disconnect();  //lfoAenv5, 0, vcoB5
+    patchCord36.disconnect();  //lfoAenv5, 0, vcoC5
+    patchCord37.disconnect();  //lfoAenv5, 0, sub5
+    patchCord38.connect();     //lfoAenv5, 0, filterMix5
+
+    patchCord39.disconnect();  //lfoAenv6, 0, modMix6
+    patchCord40.disconnect();  //lfoAenv6, 0, vcoB6
+    patchCord41.disconnect();  //lfoAenv6, 0, vcoC6
+    patchCord42.disconnect();  //lfoAenv6, 0, sub6
+    patchCord43.connect();     //lfoAenv6, 0, filterMix6
+
+    patchCord1019.disconnect();  //lfoAenv7, 0, modMix7
+    patchCord1020.disconnect();  //lfoAenv7, 0, vcoB7
+    patchCord1021.disconnect();  //lfoAenv7, 0, vcoC7
+    patchCord1022.disconnect();  //lfoAenv7, 0, sub7
+    patchCord1023.connect();     //lfoAenv7, 0, filterMix7
+
+    patchCord1024.disconnect();  //lfoAenv8, 0, modMix8
+    patchCord1025.disconnect();  //lfoAenv8, 0, vcoB8
+    patchCord1025.disconnect();  //lfoAenv8, 0, vcoC8
+    patchCord1027.disconnect();  //lfoAenv8, 0, sub8
+    patchCord1028.connect();     //lfoAenv8, 0, filterMix8
+
+    patchCord1029.disconnect();  //lfoAenv9, 0, modMix9
+    patchCord1030.disconnect();  //lfoAenv9, 0, vcoB9
+    patchCord1031.disconnect();  //lfoAenv9, 0, vcoC9
+    patchCord1032.disconnect();  //lfoAenv9, 0, sub9
+    patchCord1033.connect();     //lfoAenv9, 0, filterMix9
+
+    patchCord1034.disconnect();  //lfoAenv10, 0, modMix10
+    patchCord1035.disconnect();  //lfoAenv10, 0, vcoB10
+    patchCord1036.disconnect();  //lfoAenv10, 0, vcoC10
+    patchCord1037.disconnect();  //lfoAenv10, 0, sub10
+    patchCord1038.connect();     //lfoAenv10, 0, filterMix10
+
+    patchCord1039.disconnect();  //lfoAenv11, 0, modMix11
+    patchCord1040.disconnect();  //lfoAenv11, 0, vcoB11
+    patchCord1041.disconnect();  //lfoAenv11, 0, vcoC11
+    patchCord1042.disconnect();  //lfoAenv11, 0, sub11
+    patchCord1043.connect();     //lfoAenv11, 0, filterMix11
+
+    patchCord1044.disconnect();  //lfoAenv12, 0, modMix12
+    patchCord1045.disconnect();  //lfoAenv12, 0, vcoB12
+    patchCord1046.disconnect();  //lfoAenv12, 0, vcoC12
+    patchCord1047.disconnect();  //lfoAenv12, 0, sub12
+    patchCord1048.connect();     //lfoAenv12, 0, filterMix12
 
     patchCord49.disconnect();  //lfoAread.
   }
@@ -2114,61 +2285,72 @@ FLASHMEM void updateLFODestination() {
     patchCord46.disconnect();    //lfoAenv1, 0, vcoC1
     patchCord47.disconnect();    //lfoAenv1, 0, sub1
     patchCord48.disconnect();    //lfoAenv1, 0, filterMix1
+
     patchCord19.disconnect();    //lfoAenv2, 0, modMix2
     patchCord20.disconnect();    //lfoAenv2, 0, vcoB2
     patchCord21.disconnect();    //lfoAenv2, 0, vcoC2
     patchCord22.disconnect();    //lfoAenv2, 0, sub2
     patchCord23.disconnect();    //lfoAenv2, 0, filterMix2
+
     patchCord24.disconnect();    //lfoAenv3, 0, modMix3
     patchCord25.disconnect();    //lfoAenv3, 0, vcoB3
     patchCord26.disconnect();    //lfoAenv3, 0, vcoC3
     patchCord27.disconnect();    //lfoAenv3, 0, sub3
     patchCord28.disconnect();    //lfoAenv3, 0, filterMix3
+
     patchCord29.disconnect();    //lfoAenv4, 0, modMix4
     patchCord30.disconnect();    //lfoAenv4, 0, vcoB4
     patchCord31.disconnect();    //lfoAenv4, 0, vcoC4
     patchCord32.disconnect();    //lfoAenv4, 0, sub4
     patchCord33.disconnect();    //lfoAenv4, 0, filterMix4
+
     patchCord34.disconnect();    //lfoAenv5, 0, modMix5
     patchCord35.disconnect();    //lfoAenv5, 0, vcoB5
     patchCord36.disconnect();    //lfoAenv5, 0, vcoC5
     patchCord37.disconnect();    //lfoAenv5, 0, sub5
     patchCord38.disconnect();    //lfoAenv5, 0, filterMix5
+
     patchCord39.disconnect();    //lfoAenv6, 0, modMix6
     patchCord40.disconnect();    //lfoAenv6, 0, vcoB6
     patchCord41.disconnect();    //lfoAenv6, 0, vcoC6
     patchCord42.disconnect();    //lfoAenv6, 0, sub6
     patchCord43.disconnect();    //lfoAenv6, 0, filterMix6
-    patchCord1044.disconnect();  //lfoAenv7, 0, modMix7
-    patchCord1045.disconnect();  //lfoAenv7, 0, vcoB7
-    patchCord1046.disconnect();  //lfoAenv7, 0, vcoC7
-    patchCord1047.disconnect();  //lfoAenv7, 0, sub7
-    patchCord1048.disconnect();  //lfoAenv7, 0, filterMix7
-    patchCord1019.disconnect();  //lfoAenv8, 0, modMix8
-    patchCord1020.disconnect();  //lfoAenv8, 0, vcoB8
-    patchCord1021.disconnect();  //lfoAenv8, 0, vcoC8
-    patchCord1022.disconnect();  //lfoAenv8, 0, sub8
-    patchCord1023.disconnect();  //lfoAenv8, 0, filterMix8
-    patchCord1024.disconnect();  //lfoAenv9, 0, modMix9
-    patchCord1025.disconnect();  //lfoAenv9, 0, vcoB9
-    patchCord1026.disconnect();  //lfoAenv9, 0, vcoC9
-    patchCord1027.disconnect();  //lfoAenv9, 0, sub9
-    patchCord1028.disconnect();  //lfoAenv9, 0, filterMix9
-    patchCord1029.disconnect();  //lfoAenv10, 0, modMix10
-    patchCord1030.disconnect();  //lfoAenv10, 0, vcoB10
-    patchCord1031.disconnect();  //lfoAenv10, 0, vcoC10
-    patchCord1032.disconnect();  //lfoAenv10, 0, sub10
-    patchCord1033.disconnect();  //lfoAenv10, 0, filterMix10
-    patchCord1034.disconnect();  //lfoAenv11, 0, modMix11
-    patchCord1035.disconnect();  //lfoAenv11, 0, vcoB11
-    patchCord1036.disconnect();  //lfoAenv11, 0, vcoC11
-    patchCord1037.disconnect();  //lfoAenv11, 0, sub11
-    patchCord1038.disconnect();  //lfoAenv11, 0, filterMix11
-    patchCord1039.disconnect();  //lfoAenv12, 0, modMix12
-    patchCord1040.disconnect();  //lfoAenv12, 0, vcoB12
-    patchCord1041.disconnect();  //lfoAenv12, 0, vcoC12
-    patchCord1042.disconnect();  //lfoAenv12, 0, sub12
-    patchCord1043.disconnect();  //lfoAenv12, 0, filterMix12
+
+    patchCord1019.disconnect();  //lfoAenv7, 0, modMix7
+    patchCord1020.disconnect();  //lfoAenv7, 0, vcoB7
+    patchCord1021.disconnect();  //lfoAenv7, 0, vcoC7
+    patchCord1022.disconnect();  //lfoAenv7, 0, sub7
+    patchCord1023.disconnect();  //lfoAenv7, 0, filterMix7
+
+    patchCord1024.disconnect();  //lfoAenv8, 0, modMix8
+    patchCord1025.disconnect();  //lfoAenv8, 0, vcoB8
+    patchCord1025.disconnect();  //lfoAenv8, 0, vcoC8
+    patchCord1027.disconnect();  //lfoAenv8, 0, sub8
+    patchCord1028.disconnect();  //lfoAenv8, 0, filterMix8
+
+    patchCord1029.disconnect();  //lfoAenv9, 0, modMix9
+    patchCord1030.disconnect();  //lfoAenv9, 0, vcoB9
+    patchCord1031.disconnect();  //lfoAenv9, 0, vcoC9
+    patchCord1032.disconnect();  //lfoAenv9, 0, sub9
+    patchCord1033.disconnect();  //lfoAenv9, 0, filterMix9
+
+    patchCord1034.disconnect();  //lfoAenv10, 0, modMix10
+    patchCord1035.disconnect();  //lfoAenv10, 0, vcoB10
+    patchCord1036.disconnect();  //lfoAenv10, 0, vcoC10
+    patchCord1037.disconnect();  //lfoAenv10, 0, sub10
+    patchCord1038.disconnect();  //lfoAenv10, 0, filterMix10
+
+    patchCord1039.disconnect();  //lfoAenv11, 0, modMix11
+    patchCord1040.disconnect();  //lfoAenv11, 0, vcoB11
+    patchCord1041.disconnect();  //lfoAenv11, 0, vcoC11
+    patchCord1042.disconnect();  //lfoAenv11, 0, sub11
+    patchCord1043.disconnect();  //lfoAenv11, 0, filterMix11
+    
+    patchCord1044.disconnect();  //lfoAenv12, 0, modMix12
+    patchCord1045.disconnect();  //lfoAenv12, 0, vcoB12
+    patchCord1046.disconnect();  //lfoAenv12, 0, vcoC12
+    patchCord1047.disconnect();  //lfoAenv12, 0, sub12
+    patchCord1048.disconnect();  //lfoAenv12, 0, filterMix12
 
     patchCord49.connect();  //lfoAread.
   }
@@ -3461,50 +3643,50 @@ void loop() {
   vcoC3.frequency(noteFreqs[note3freq] * octave * octaveC * tuneC * bend * voiceDetune[2]);
   sub3.frequency(noteFreqs[note3freq] / 2 * octave * bend * voiceDetune[2]);
 
-  vcoA4.frequency(noteFreqs[note4freq] * octave * bend);
-  vcoB4.frequency(noteFreqs[note4freq] * octave * octaveB * tuneB * bend);
-  vcoC4.frequency(noteFreqs[note4freq] * octave * octaveC * tuneC * bend);
-  sub4.frequency(noteFreqs[note4freq] / 2 * octave * bend);
+  vcoA4.frequency(noteFreqs[note4freq] * octave * bend * voiceDetune[3]);
+  vcoB4.frequency(noteFreqs[note4freq] * octave * octaveB * tuneB * bend * voiceDetune[3]);
+  vcoC4.frequency(noteFreqs[note4freq] * octave * octaveC * tuneC * bend * voiceDetune[3]);
+  sub4.frequency(noteFreqs[note4freq] / 2 * octave * bend * voiceDetune[3]);
 
-  vcoA5.frequency(noteFreqs[note5freq] * octave * bend);
-  vcoB5.frequency(noteFreqs[note5freq] * octave * octaveB * tuneB * bend);
-  vcoC5.frequency(noteFreqs[note5freq] * octave * octaveC * tuneC * bend);
-  sub5.frequency(noteFreqs[note5freq] / 2 * octave * bend);
+  vcoA5.frequency(noteFreqs[note5freq] * octave * bend * voiceDetune[4]);
+  vcoB5.frequency(noteFreqs[note5freq] * octave * octaveB * tuneB * bend * voiceDetune[4]);
+  vcoC5.frequency(noteFreqs[note5freq] * octave * octaveC * tuneC * bend * voiceDetune[4]);
+  sub5.frequency(noteFreqs[note5freq] / 2 * octave * bend * voiceDetune[4]);
 
-  vcoA6.frequency(noteFreqs[note6freq] * octave * bend);
-  vcoB6.frequency(noteFreqs[note6freq] * octave * octaveB * tuneB * bend);
-  vcoC6.frequency(noteFreqs[note6freq] * octave * octaveC * tuneC * bend);
-  sub6.frequency(noteFreqs[note6freq] / 2 * octave * bend);
+  vcoA6.frequency(noteFreqs[note6freq] * octave * bend * voiceDetune[5]);
+  vcoB6.frequency(noteFreqs[note6freq] * octave * octaveB * tuneB * bend * voiceDetune[5]);
+  vcoC6.frequency(noteFreqs[note6freq] * octave * octaveC * tuneC * bend * voiceDetune[5]);
+  sub6.frequency(noteFreqs[note6freq] / 2 * octave * bend * voiceDetune[5]);
 
-  vcoA7.frequency(noteFreqs[note7freq] * octave * bend);
-  vcoB7.frequency(noteFreqs[note7freq] * octave * octaveB * tuneB * bend);
-  vcoC7.frequency(noteFreqs[note7freq] * octave * octaveC * tuneC * bend);
-  sub7.frequency(noteFreqs[note7freq] / 2 * octave * bend);
+  vcoA7.frequency(noteFreqs[note7freq] * octave * bend * voiceDetune[6]);
+  vcoB7.frequency(noteFreqs[note7freq] * octave * octaveB * tuneB * bend * voiceDetune[6]);
+  vcoC7.frequency(noteFreqs[note7freq] * octave * octaveC * tuneC * bend * voiceDetune[6]);
+  sub7.frequency(noteFreqs[note7freq] / 2 * octave * bend * voiceDetune[6]);
 
-  vcoA8.frequency(noteFreqs[note8freq] * octave * bend);
-  vcoB8.frequency(noteFreqs[note8freq] * octave * octaveB * tuneB * bend);
-  vcoC8.frequency(noteFreqs[note8freq] * octave * octaveC * tuneC * bend);
-  sub8.frequency(noteFreqs[note8freq] / 2 * octave * bend);
+  vcoA8.frequency(noteFreqs[note8freq] * octave * bend * voiceDetune[7]);
+  vcoB8.frequency(noteFreqs[note8freq] * octave * octaveB * tuneB * bend * voiceDetune[7]);
+  vcoC8.frequency(noteFreqs[note8freq] * octave * octaveC * tuneC * bend * voiceDetune[7]);
+  sub8.frequency(noteFreqs[note8freq] / 2 * octave * bend * voiceDetune[7]);
 
-  vcoA9.frequency(noteFreqs[note9freq] * octave * bend);
-  vcoB9.frequency(noteFreqs[note9freq] * octave * octaveB * tuneB * bend);
-  vcoC9.frequency(noteFreqs[note9freq] * octave * octaveC * tuneC * bend);
-  sub9.frequency(noteFreqs[note9freq] / 2 * octave * bend);
+  vcoA9.frequency(noteFreqs[note9freq] * octave * bend * voiceDetune[8]);
+  vcoB9.frequency(noteFreqs[note9freq] * octave * octaveB * tuneB * bend * voiceDetune[8]);
+  vcoC9.frequency(noteFreqs[note9freq] * octave * octaveC * tuneC * bend * voiceDetune[8]);
+  sub9.frequency(noteFreqs[note9freq] / 2 * octave * bend * voiceDetune[8]);
 
-  vcoA10.frequency(noteFreqs[note10freq] * octave * bend);
-  vcoB10.frequency(noteFreqs[note10freq] * octave * octaveB * tuneB * bend);
-  vcoC10.frequency(noteFreqs[note10freq] * octave * octaveC * tuneC * bend);
-  sub10.frequency(noteFreqs[note10freq] / 2 * octave * bend);
+  vcoA10.frequency(noteFreqs[note10freq] * octave * bend * voiceDetune[9]);
+  vcoB10.frequency(noteFreqs[note10freq] * octave * octaveB * tuneB * bend * voiceDetune[9]);
+  vcoC10.frequency(noteFreqs[note10freq] * octave * octaveC * tuneC * bend * voiceDetune[9]);
+  sub10.frequency(noteFreqs[note10freq] / 2 * octave * bend * voiceDetune[9]);
 
-  vcoA11.frequency(noteFreqs[note11freq] * octave * bend);
-  vcoB11.frequency(noteFreqs[note11freq] * octave * octaveB * tuneB * bend);
-  vcoC11.frequency(noteFreqs[note11freq] * octave * octaveC * tuneC * bend);
-  sub11.frequency(noteFreqs[note11freq] / 2 * octave * bend);
+  vcoA11.frequency(noteFreqs[note11freq] * octave * bend * voiceDetune[10]);
+  vcoB11.frequency(noteFreqs[note11freq] * octave * octaveB * tuneB * bend * voiceDetune[10]);
+  vcoC11.frequency(noteFreqs[note11freq] * octave * octaveC * tuneC * bend * voiceDetune[10]);
+  sub11.frequency(noteFreqs[note11freq] / 2 * octave * bend * voiceDetune[10]);
 
-  vcoA12.frequency(noteFreqs[note12freq] * octave * bend);
-  vcoB12.frequency(noteFreqs[note12freq] * octave * octaveB * tuneB * bend);
-  vcoC12.frequency(noteFreqs[note12freq] * octave * octaveC * tuneC * bend);
-  sub12.frequency(noteFreqs[note12freq] / 2 * octave * bend);
+  vcoA12.frequency(noteFreqs[note12freq] * octave * bend * voiceDetune[11]);
+  vcoB12.frequency(noteFreqs[note12freq] * octave * octaveB * tuneB * bend * voiceDetune[11]);
+  vcoC12.frequency(noteFreqs[note12freq] * octave * octaveC * tuneC * bend * voiceDetune[11]);
+  sub12.frequency(noteFreqs[note12freq] / 2 * octave * bend * voiceDetune[11]);
 
   //lfo A read
   unsigned long currTime = millis();

@@ -5,6 +5,7 @@ void settingsEncoderDir(char *value);
 void settingsPitchBend(int index, const char *value);
 void settingsModWheelDepth(int index, const char *value);
 void settingsafterTouchDepth(int index, const char *value);
+void settingsUnisonNotes(int index, const char *value);
 void settingsUnisonDetune(int index, const char *value);
 void settingsNotePriority(int index, const char *value);
 
@@ -13,6 +14,7 @@ int currentIndexEncoderDir();
 int currentIndexPitchBend();
 int currentIndexModWheelDepth();
 int currentIndexafterTouchDepth();
+int currentIndexUnisonNotes();
 int currentIndexUnisonDetune();
 int currentIndexNotePriority();
 
@@ -68,6 +70,13 @@ void settingsNotePriority(int index, const char *value) {
   storeNotePriority(NP);
 }
 
+void settingsUnisonNotes(int index, const char *value) {
+  uniNotes = atoi(value);            // convert "2" → 2, etc.
+  if (uniNotes < 2) uniNotes = 2;
+  if (uniNotes > 12) uniNotes = 12;
+  storeUnisonNotes(uniNotes);
+}
+
 void settingsUnisonDetune(int index, const char *value) {
   if (strcmp(value, "Off") == 0) unidetune = 0;
   if (strcmp(value, "1") == 0) unidetune = 1;
@@ -107,6 +116,11 @@ int currentIndexNotePriority() {
   return getNotePriority();
 }
 
+int currentIndexUnisonNotes() {
+  int stored = getUnisonNotes(); // returns 2–12
+  return stored - 2;             // convert to index 0–10
+}
+
 int currentIndexUnisonDetune() {
   return getUnisonDetune();
 }
@@ -115,6 +129,7 @@ int currentIndexUnisonDetune() {
 void setUpSettings() {
   settings::append(settings::SettingsOption{ "MIDI In Ch.", { "All", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "\0" }, settingsMIDICh, currentIndexMIDICh });
   settings::append(settings::SettingsOption{ "Key Priority", { "Top", "Bottom", "Last", "\0" }, settingsNotePriority, currentIndexNotePriority });
+  settings::append(settings::SettingsOption{ "Uni Notes", { "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "\0" }, settingsUnisonNotes, currentIndexUnisonNotes });
   settings::append(settings::SettingsOption{ "Unison Det", { "Off", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "\0" }, settingsUnisonDetune, currentIndexUnisonDetune });
   settings::append(settings::SettingsOption{ "Encoder", { "Type 1", "Type 2", "\0" }, settingsEncoderDir, currentIndexEncoderDir });
   settings::append(settings::SettingsOption{ "Pitch Bend", { "Off", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "\0" }, settingsPitchBend, currentIndexPitchBend });
