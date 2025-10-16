@@ -2286,11 +2286,13 @@ void myControlChange(byte channel, byte control, byte value) {
     case CCvcf_frequency:
       mux25 = (value << 3);
       cutoffstr = FILTERFREQS[value];
+      cut = 15000 * (float)mux25 / 1023 + 15;  /////cut
       updateCutoff();
       break;
 
     case CCvcf_resonance:
       mux24 = (value << 3);
+      res = 4.5 * (float)mux24 / 1023 + 1.1;
       updateRes();
       break;
 
